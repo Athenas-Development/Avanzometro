@@ -2,7 +2,7 @@
 Proyecto de Ingenieria de Software. Trimestre Septiembre - Diciembre 2017.
 ## Pasos para la instalación de la DB:
 - Descargar e Instalar PostgreSQL 9.X
-- Iniciar sesión como usuario postgres y crear la BD SisPIO:
+- Iniciar sesión como usuario postgres y crear la BD Avanzometro:
 ```
 sudo -su postgres
 CREATE DATABASE "Avanzometro";
