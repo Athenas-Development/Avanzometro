@@ -9,7 +9,7 @@ CREATE DATABASE "Avanzometro";
 ```
 - Crear usuario Avanzometro y garantarizar el acceso a la BD:
 ```
-CREATE USER "Avanzometro" WITH PASSWORD 'Avanzometro';
+CREATE USER "Avanzometro" WITH PASSWORD '1234';
 GRANT ALL PRIVILEGES ON DATABASE "Avanzometro" to "Avanzometro";
 ```
 - Y a trabajar :D
