@@ -34,5 +34,8 @@ class RegistroPageTest(TestCase):
 
 		self.assertEquals(response.status_code, 302)
 
+		# self.assertFormError(response, 'form', 'something', 'This field is required.')
+
+
 
 
