@@ -19,7 +19,7 @@ from django.contrib.auth.views import login
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'$^|^index', login, {'template_name':'index.html'}),
+    url(r'$^|^index', login, {'template_name':'login.html'}),
     url(r'^registro', include('apps.registro.urls')),
     url(r'^registro/welcome', include('apps.registro.urls'))
 ]
