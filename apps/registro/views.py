@@ -10,7 +10,7 @@ class RegistroUsuario(CreateView):
     model = User
     template_name = 'registrarUsuario.html'
     form_class = RegistroForm
-    success_url = 'index'
+    success_url = '/index'
 
 def welcome():
 	return HttpResponse("Welcome!")
