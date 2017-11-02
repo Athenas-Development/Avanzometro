@@ -8,5 +8,5 @@ from django.conf import settings
 
 urlpatterns = [
     url(r'^$', RegistroUsuario.as_view()),
-    url(r'^logout/$', logout, {'next_page':settings.LOGOUT_REDIRECT_URL})
+    url(r'^logout/$', logout, {'next_page':settings.LOGOUT_REDIRECT_URL}),
 ]

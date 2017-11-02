@@ -18,22 +18,32 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-home"></span>  <b>Avanzometro</b></a>
+            {% if user.is_authenticated %}
+              <a class="navbar-brand" href="../instantanea"><span class="glyphicon glyphicon-home"></span>  <b>Avanzometro</b></a>
+            {% else %}
+              <a class="navbar-brand" href="../"><span class="glyphicon glyphicon-home"></span>  <b>Avanzometro</b></a>
+            {% endif %}
         </div>
 
-
+          {% if user.is_authenticated %}
           <ul class="nav navbar-nav ">
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" ><span class="glyphicon glyphicon-user"></span>  Usuario <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="/"><span class="glyphicon glyphicon-log-in"></span>  Iniciar Sesion</a></li>
-                <li><a href="registro"><span class="glyphicon glyphicon-pencil"></span>       Registrar Usuario</a></li>
-                  <li><a href="cargaArchivo"> Cargar Archivo de Estudiantes</a></li>
+                
+                  <li><a href="../logout"><span class="glyphicon glyphicon-log-out"></span>  Cerrar Sesion</a></li>
+                
+                <li><a href="../registro"><span class="glyphicon glyphicon-pencil"></span>  Registrar Usuario</a></li>  
               </ul>
             </li>
           </ul>
+          <ul class="nav navbar-nav ">
+             <li><a href="../cargaArchivo"><span class="glyphicon glyphicon-open-file"></span> Cargar Archivo de Estudiantes </a></li>
+          </ul>
 
-
+          <ul class="nav navbar-nav ">
+            <li><a href="../instantanea"><span class="glyphicon glyphicon-stats"></span> Crear Instantanea </a></li>
+          </ul>
 
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
@@ -43,6 +53,7 @@
               </ul>
             </li>
           </ul>
+          {% endif %}
       </div>
     </nav>
 

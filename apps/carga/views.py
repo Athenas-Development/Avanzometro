@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from apps.registro.models import *
 from apps.carga.models import *
 from .forms import DocumentForm
+from django.contrib.auth.decorators import login_required
 
 #Funcion de lectura de archivo para separar el archivo csv por estudiantes
 def separar_estudiantes(archivo, trimestre_limite="xxx-xxx xxxx"):
@@ -130,6 +131,7 @@ def read_csv(lista, trimestre_limite):
             cursaEncontrado.save()
 
 #Controlador que manda vista formulario de carga de archivo para cargar los estudiantes en la base de datos
+@login_required
 def cargarArchivo(request):
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)

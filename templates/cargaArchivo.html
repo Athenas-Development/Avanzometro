@@ -20,7 +20,7 @@
                 </div>
 				<div class="col-md-8 col-md-offset-2 text-center" style="margin-top: 50px">
                     <div class="form-group">
-                        <button class="btn btn-primary"  type="submit"> Enviar </button>
+                        <button class="btn btn-primary"  type="submit"> <span class="glyphicon glyphicon-send"></span> Cargar </button>
                     </div>
                 </div>
 			</form>
@@ -32,6 +32,7 @@
 
 </div>
 
+{% block js %}
 <script type="text/javascript" language="javascript">
 	function checkfile(sender) {
 	    var validExts = new Array(".csv");
@@ -45,5 +46,6 @@
 	    else return true;
 	}
 </script>
+{% endblock %}
 
 {% endblock %}
