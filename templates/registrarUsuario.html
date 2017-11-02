@@ -4,14 +4,14 @@
 {% block content %}
 <div class="container-fluid">
     <div class="col-sm-8 col-md-offset-2" style="margin-top: 90px">
-        <form method="post">
+        <form method="post" id="registrarform">
             {% csrf_token %}
 
             <div class="row" >
                 <div class="col-md-8 col-md-offset-2">
                     <div class="form-group">
                         <label>Nombre</label>
-                        <input class="form-control" type="text" name="first_name" id="nombres" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ]([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+[\s-]?[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]*)*" required>
+                        <input class="form-control" type="text" name="first_name" id="nombres" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ]([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+[\s-]?[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]*)*" maxlength="30"  required>
                     </div>
                 </div>
             </div>
@@ -19,23 +19,15 @@
                 <div class="col-md-8 col-md-offset-2">
                     <div class="form-group">
                         <label >Apellidos</label>
-                        <input class="form-control" type="text" name="last_name" id="apellidos" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ]([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+[\s-]?[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]*)*" required>
+                        <input class="form-control" type="text" name="last_name" id="apellidos" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ]([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+[\s-]?[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]*)*" maxlength="30" required>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
                     <div class="form-group">
-                        <label >Nombre de usuario</label>
-                        <input class="form-control" type="text" name="username" required>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2">
-                    <div class="form-group">
-                        <label >Correo</label>
-                        <input class="form-control" type="email" name="email" required>
+                        <label >Correo Electrónico</label>
+                        <input class="form-control" type="email" name="username" id="username" required>
                     </div>
                 </div>
             </div>
@@ -43,7 +35,7 @@
                 <div class="col-md-8 col-md-offset-2">
                     <div class="form-group">
                         <label >Contraseña</label>
-                        <input class="form-control" type="password" name="password1" id="password1" required>
+                        <input class="form-control" type="password" name="password1" id="password1" maxlength= "16" minlength= "8"  required>
                     </div>
                 </div>
             </div>
@@ -51,7 +43,7 @@
                 <div class="col-md-8 col-md-offset-2">
                     <div class="form-group">
                         <label >Confirmar contraseña</label>
-                        <input class="form-control" type="password" name="password2" id="password2" required>
+                        <input class="form-control" type="password" name="password2" id="password2" maxlength= "16" minlength= "8" required>
                     </div>
                 </div>
             </div>
