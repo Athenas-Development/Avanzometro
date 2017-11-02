@@ -9,6 +9,9 @@ from apps.registro.models import Estudiante
 
 # Create your views here.
 
+#Controladores de la vista de registro
+
+#Envia a la pagina principal despues de un registro exitoso
 class RegistroUsuario(CreateView):
     model = User
     template_name = 'registrarUsuario.html'

@@ -1,2 +1,3 @@
+/*Cuando un input es invalido, se colorea de rojo*/
 input:focus:required:invalid {border-color: #DD2C00;}
 
