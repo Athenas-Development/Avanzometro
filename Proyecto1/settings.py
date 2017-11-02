@@ -130,3 +130,5 @@ STATICFILES_DIRS = [
 ]
 
 LOGIN_REDIRECT_URL = 'instantanea/'
+
+LOGOUT_REDIRECT_URL = '/'

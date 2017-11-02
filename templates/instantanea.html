@@ -7,21 +7,21 @@
 {% block content %}
 <div class="container-fluid">
     <form method="post" style="margin-top: 90px">
-
+         {% csrf_token %}
         <div class="row">
             <div class="col-md-3">
                 <label for="Trimestre" > Trimestre: </label>
-                <select name="Trimestre" class="select-style">
+                <select name="Trimestre" id="Trimestre" class="select-style">
                     <option value=" " disable >Seleccione uno</option>
-                    <option>Sep-Dic </option>
-                    <option>Ene-Mar</option>
-                    <option>Abr-Jul</option>
+                    <option value="Sep-Dic">Sep-Dic</option>
+                    <option value="Ene-Mar">Ene-Mar</option>
+                    <option value="Abr-Jul">Abr-Jul</option>
                 </select>
             </div>
 
             <div class ="col-md-3" id="Año Trimestre">
                 <label for="año" >Año: </label>
-                    <select class="select-style" id="año" name="año" required>
+                    <select class="select-style" id="anio" name="anio" required>
                         <option value=" " disable >Seleccione uno</option>
                         {%for i in rangeano%}
                         <option value="{{i}}" >{{i}}</option>
@@ -48,7 +48,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2 text-center" style="margin-top: 50px">
                 <div class="form-group">
-                    <button class="btn btn-primary" type="submit"> Cargar Datos </button>
+                    <button class="btn btn-primary"  type="submit"> Cargar Datos </button>
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@
     <div class="col-md-12">
         <h2 class="text-center">
             <b>Gráfica Resultado</b>
-        </h2><img alt="Grafica Avanzometro" src='{% static 'grafica.png' %}' class="img-responsive ">
+        </h2><img alt="Grafica Avanzometro" src='{% static 'grafica0.png' %}' class="img-responsive ">
     </div>
 
 </div>
