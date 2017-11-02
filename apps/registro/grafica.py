@@ -27,7 +27,7 @@ def getcreditsbytrandct(trimestre_dado, cohorte_dada):
             creditos += cursa_est.filter(trimestre_id = i).first().creditosAprobados
             if i == trimestre_dado:
                 break
-        lista[(creditos % 16) + 1] += 1
+        lista[int((creditos -1)/ 16) + 1] += 1
 
     return lista
 
@@ -40,28 +40,6 @@ def crear_grafica(cohorte, carrera, trimestre, total_estudiantes, lista):
     # total_de_creditos_carrera = 2
     # total_de_creditos_carrera = 224
     total_de_creditos_carrera = 240
-    EstudiantesDeCohorteCT = Estudiante.objects.filter(cohorte_id = cohorte_dada)
-
-    listadeCursaporEstdecohortect = []
-    for estudianteCT in EstudiantesDeCohorteCT:
-        listadeCursaporEstdecohortect.append(Cursa.objects.filter(estudiante = estudianteCT))
-
-
-    trimestres = ['Sep-Dic ' + str(int(cohorte_dada)), 'Ene-Mar '+ str(int(cohorte_dada)+1), 'Abr-Jul '+ str(int(cohorte_dada)+1), 'Sep-Dic ' + str(int(cohorte_dada)+1), 'Ene-Mar '+ str(int(cohorte_dada)+2), 
-        'Abr-Jul '+str(int(cohorte_dada)+2), 'Sep-Dic ' + str(int(cohorte_dada)+2), 'Ene-Mar '+ str(int(cohorte_dada)+3), 'Abr-Jul '+str(int(cohorte_dada)+3), 'Sep-Dic ' + str(int(cohorte_dada)+3), 
-        'Ene-Mar '+ str(int(cohorte_dada)+4), 'Abr-Jul '+str(int(cohorte_dada)+4),'Sep-Dic ' + str(int(cohorte_dada)+4), 'Ene-Mar '+ str(int(cohorte_dada)+5), 'Abr-Jul '+str(int(cohorte_dada)+5)]
-
-    lista = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-
-    for cursa_est in listadeCursaporEstdecohortect:
-        creditos = 0
-        for i in trimestres:
-            creditos += cursa_est.filter(trimestre_id = i).first().creditosAprobados
-            if i == trimestre_dado:
-                break
-        lista[int((creditos - 1)/16) + 1] += 1
-
-    return lista
     cohorte = cohorte
     trimestre = trimestre
     titulo = cohorte + "\n" + trimestre

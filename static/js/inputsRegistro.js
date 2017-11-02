@@ -1,3 +1,4 @@
+// Esta funcion verifica que los campos de contrase;a y verificar contrasena coinciden
 var password = document.getElementById("password1"), confirm_password = document.getElementById("password2");
 
 function validatePassword(){
