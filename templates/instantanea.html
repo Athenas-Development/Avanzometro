@@ -1,0 +1,64 @@
+{% extends 'layout.html' %}
+{% load staticfiles %}
+
+<!DOCTYPE html>
+
+
+{% block content %}
+<div class="container-fluid">
+    <form method="post" style="margin-top: 90px">
+         {% csrf_token %}
+        <div class="row">
+            <div class="col-md-3">
+                <label for="Trimestre" > Trimestre: </label>
+                <select name="Trimestre" id="Trimestre" class="select-style">
+                    <option value=" " disable >Seleccione uno</option>
+                    <option value="Ene-Mar">Ene-Mar</option>
+                    <option value="Abr-Jul">Abr-Jul</option>
+                    <option value="Sep-Dic">Sep-Dic</option>
+                </select>
+            </div>
+
+            <div class ="col-md-3" id="anio">
+                <label for="año" >Año: </label>
+                    <select class="select-style" id="anio" name="anio" required>
+                        <option value=" " disable >Seleccione uno</option>
+                        {%for i in rangeano%}
+                        <option value="{{i}}" >{{i}}</option>
+                        {%endfor%}
+                    </select>
+            </div>
+
+            <div class ="col-md-3" id="Cohorte">
+                <label for="Cohorte" > Cohorte: </label>
+                    <select class="select-style" id="Cohorte" name="Cohorte" required>
+                        <option value=" " disable >Seleccione uno</option>
+                        {% for i in rangecohorte %}
+                        <option value="{{i}}" >{{i}}</option>
+                        {% endfor %}
+                    </select>
+            </div>
+
+            <div>
+                <label for="cedula">Carrera: </label>
+                <input type="text" id="carera" name="carrera" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 text-center" style="margin-top: 50px">
+                <div class="form-group">
+                    <button class="btn btn-primary"  type="submit"><span class="glyphicon glyphicon-share-alt"></span> Cargar Datos </button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="col-md-12">
+        <h2 class="text-center">
+            <b>Gráfica Resultado</b>
+        </h2><img alt="Grafica Avanzometro" src='{% static 'grafica.png' %}' class="img-responsive">
+    </div>
+
+</div>
+{% endblock %}

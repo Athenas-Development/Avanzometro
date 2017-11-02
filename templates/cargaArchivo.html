@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+
+
+	<div class="row filas " style="margin-top: 90px">
+		<div class="col-sm-3 columnas"></div>
+		<div class="col-sm-6 columnas">
+			<form class="form-group " method="POST" enctype="multipart/form-data">
+				{% csrf_token %}
+                <div class="col-sm-offset-2">
+                    <h4>Seleccione un archivo .csv para cargar Estudiantes: </h4>
+                    <!--<label class="btn btn-default btn-file">
+                        Explorar <input name="Archivo" type="file" style="display: none;" onchange="checkfile(this); this.form.submit();">
+                    </label>-->
+                    <div class="col-sm-offset-3">
+                        {{form.as_p}}
+                    </div>
+                </div>
+				<div class="col-md-8 col-md-offset-2 text-center" style="margin-top: 50px">
+                    <div class="form-group">
+                        <button class="btn btn-primary"  type="submit"> <span class="glyphicon glyphicon-send"></span> Cargar </button>
+                    </div>
+                </div>
+			</form>
+		</div>
+		<div class="col-sm-3 columnas"></div>
+	</div>
+
+	<div class="row filas"></div>
+
+</div>
+
+{% block js %}
+<script type="text/javascript" language="javascript">
+	function checkfile(sender) {
+	    var validExts = new Array(".csv");
+	    var fileExt = sender.value;
+	    fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+	    if (validExts.indexOf(fileExt) < 0) {
+	      alert("Extensión inválida, solo se aceptan archivos " +
+	               validExts.toString());
+	      return false;
+	    }
+	    else return true;
+	}
+</script>
+{% endblock %}
+
+{% endblock %}

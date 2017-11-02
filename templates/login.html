@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<title>Login</title>
+<div class="container-fluid">
+    <div class="col-sm-8 col-md-offset-2" style="margin-top: 90px">
+        <form method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="form-group">
+                        <label>Correo Electrónico</label>
+                        <input class="form-control" type="text" name="username" id="username" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <input class="form-control" type="password" name="password" id="password" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="form-group">
+                        <a href='../registro'> Registrarse <span class="glyphicon glyphicon-pencil"></span> </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-block" type="submit" name="submit" id="regbutton"> Ingresar </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
