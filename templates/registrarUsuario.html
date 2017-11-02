@@ -11,7 +11,7 @@
                 <div class="col-md-8 col-md-offset-2">
                     <div class="form-group">
                         <label>Nombre</label>
-                        <input class="form-control" type="text" name="first_name" id="nombres" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ]([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+[\s-]?[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]*)*" maxlength="30"  required>
+                        <input class="form-control" type="text" name="first_name" id="first_name" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ]([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+[\s-]?[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]*)*" maxlength="30"  required>
                     </div>
                 </div>
             </div>
@@ -19,7 +19,7 @@
                 <div class="col-md-8 col-md-offset-2">
                     <div class="form-group">
                         <label >Apellidos</label>
-                        <input class="form-control" type="text" name="last_name" id="apellidos" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ]([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+[\s-]?[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]*)*" maxlength="30" required>
+                        <input class="form-control" type="text" name="last_name" id="last_name" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ]([a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+[\s-]?[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]*)*" maxlength="30" required>
                     </div>
                 </div>
             </div>
@@ -27,7 +27,7 @@
                 <div class="col-md-8 col-md-offset-2">
                     <div class="form-group">
                         <label >Correo Electrónico</label>
-                        <input class="form-control" type="email" name="username" id="username" required>
+                        <input class="form-control" type="email" name="username" id="username" pattern="([a-zA-Z\d!#$%&'*+\.\-/=?^_`{|}~])*@[a-z]+(\.[a-z]+)*"required>
                     </div>
                 </div>
             </div>
@@ -51,7 +51,7 @@
             <div class="row">
                 <div class="col-md-8 col-md-offset-2 text-center">
                     <div class="form-group">
-                        <button class="btn btn-primary "type="submit">Registrar</button>
+                        <button class="btn btn-primary " id="regbutton"type="submit">Registrar</button>
                     </div>
                 </div>
             </div>
