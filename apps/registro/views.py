@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from apps.registro.grafica import crear_grafica, getcreditsbytrandct
 from django.contrib.auth.decorators import login_required
 from apps.registro.models import Estudiante
+from django.core.cache import cache
 
 # Create your views here.
 
@@ -20,6 +21,7 @@ class RegistroUsuario(CreateView):
 
 @login_required
 def instantanea(request):
+    cache.clear()
     list1 = []
     for i in range(68,118):
         a = str(i)[-2] + str(i)[-1]
