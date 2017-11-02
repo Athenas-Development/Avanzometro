@@ -7,6 +7,7 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 #import matplotlib as matplt
 
+#Esta funcion crea las instantaneas respecto a la informacion ingresada
 def crear_grafica(cohorte, carrera, trimestre, total_estudiantes, lista):
 
     carrera = carrera

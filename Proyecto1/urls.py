@@ -21,6 +21,8 @@ from apps.carga.views import cargarArchivo
 from apps.login.views import logout_then_login
 from apps.registro.views import instantanea
 
+#Urls a los que redirecciona todas las paginass dentro de el software
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'$^', login, {'template_name':'login.html'}),

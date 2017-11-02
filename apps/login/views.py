@@ -7,9 +7,13 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
+#Controladores de las vistas de login
+
+#envia al inicio de la pagina
 def index(request):
     return render(request, "index.html")
 
+#Deslogea el usuario de l apagina y devuelve a la pagina principal
 @login_required
 def logout (request):
 
