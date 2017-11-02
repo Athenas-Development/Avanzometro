@@ -86,7 +86,7 @@ def read_csv(lista, trimestre_limite):
                         else:
                             cursaEncontrado = Cursa(estudiante=estudianteEncontrado, trimestre=trimestreEncontrado, creditosAprobados=cred_aprobados)
                             cursaEncontrado.save()
-                            print('CURSA CREADO: ' + nombreEst + ' - ' + trimestreEst)
+                            #print('CURSA CREADO: ' + nombreEst + ' - ' + trimestreEst)
 
                         print('=========  ' + carnetEst + ' --curso-- ' + trimestreEst + ' --cred_aprobados-- ' + str(
                             cred_aprobados))

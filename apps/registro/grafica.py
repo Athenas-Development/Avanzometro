@@ -15,21 +15,32 @@ def getcreditsbytrandct(trimestre_dado, cohorte_dada):
     for estudianteCT in EstudiantesDeCohorteCT:
         listadeCursaporEstdecohortect.append(Cursa.objects.filter(estudiante = estudianteCT))
 
+    if int(cohorte_dada) >= 68:
+        apendboy = '19'
+    else:
+        apendboy = '20'
 
-    trimestres = ['Sep-Dic ' + str(int(cohorte_dada)), 'Ene-Mar '+ str(int(cohorte_dada)+1), 'Abr-Jul '+ str(int(cohorte_dada)+1), 'Sep-Dic ' + str(int(cohorte_dada)+1), 'Ene-Mar '+ str(int(cohorte_dada)+2), 
-        'Abr-Jul '+str(int(cohorte_dada)+2), 'Sep-Dic ' + str(int(cohorte_dada)+2), 'Ene-Mar '+ str(int(cohorte_dada)+3), 'Abr-Jul '+str(int(cohorte_dada)+3), 'Sep-Dic ' + str(int(cohorte_dada)+3), 
-        'Ene-Mar '+ str(int(cohorte_dada)+4), 'Abr-Jul '+str(int(cohorte_dada)+4),'Sep-Dic ' + str(int(cohorte_dada)+4), 'Ene-Mar '+ str(int(cohorte_dada)+5), 'Abr-Jul '+str(int(cohorte_dada)+5)]
+
+    trimestres = ['Sep-Dic ' + apendboy + str(int(cohorte_dada)), 'Ene-Mar '+ apendboy + str(int(cohorte_dada)+1), 'Abr-Jul '+ apendboy + str(int(cohorte_dada)+1), 'Sep-Dic ' + apendboy + str(int(cohorte_dada)+1), 'Ene-Mar '+ apendboy + str(int(cohorte_dada)+2), 
+        'Abr-Jul '+ apendboy +str(int(cohorte_dada)+2), 'Sep-Dic ' + apendboy + str(int(cohorte_dada)+2), 'Ene-Mar '+ apendboy + str(int(cohorte_dada)+3), 'Abr-Jul '+ apendboy +str(int(cohorte_dada)+3), 'Sep-Dic ' + apendboy + str(int(cohorte_dada)+3), 
+        'Ene-Mar '+ apendboy + str(int(cohorte_dada)+4), 'Abr-Jul '+ apendboy +str(int(cohorte_dada)+4),'Sep-Dic ' + apendboy + str(int(cohorte_dada)+4), 'Ene-Mar '+ apendboy + str(int(cohorte_dada)+5), 'Abr-Jul '+ apendboy +str(int(cohorte_dada)+5)]
 
     lista = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
     for cursa_est in listadeCursaporEstdecohortect:
         creditos = 0
         for i in trimestres:
+            print(i)
+            print(cursa_est.first().trimestre_id)
+            print()
+            print()
             if cursa_est.filter(trimestre_id = i).count() > 0:
                 creditos += cursa_est.filter(trimestre_id = i).first().creditosAprobados
             if i == trimestre_dado:
                 break
+
         lista[int((creditos -1)/ 16) + 1] += 1
+    print(lista)
 
     return lista
 
