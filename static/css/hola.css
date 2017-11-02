@@ -1,0 +1,9 @@
+
+
+select-style {
+    border: 1px solid #a9a9a9;
+    width: 170px;
+    height: 25px;
+    overflow: hidden;
+    background: white;
+}

@@ -16,10 +16,11 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth.views import login
+from apps.registro.views import instantanea
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'$^|^index', login, {'template_name':'login.html'}),
-    url(r'^registro', include('apps.registro.urls')),
-    url(r'^registro/welcome', include('apps.registro.urls'))
+    url(r'$^', login, {'template_name':'login.html'}),
+    url(r'^registro/', include('apps.registro.urls')),
+    url(r'^instantanea/', instantanea)
 ]
