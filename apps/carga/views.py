@@ -35,12 +35,13 @@ def read_csv(lista, trimestre_limite):
         para = True
         cred_aprobados = 0
         for linea in estudianteEval:
-            print(linea)
+            #print(linea)
             if linea[0] == 'Carnet':
                 carnetEst = linea[1]
                 estatusEstudiante = Estudiante.objects.filter(carnet=carnetEst)
                 if estatusEstudiante.count() != 0:
                     estudianteEncontrado = estatusEstudiante.first()
+                    print('ESTUDIANTE ENCONTRADO')
                 print('----carnetEst: ' + carnetEst)
 
                 cohorteEst = int(carnetEst[0:2])
@@ -64,12 +65,14 @@ def read_csv(lista, trimestre_limite):
 
                     estatusTrimestre = Trimestre.objects.filter(id=trimestreEst)
                     if estatusTrimestre.count() != 0:
+                        print('TRIMESTRE ENCONTRADO')
                         trimestreEncontrado = estatusTrimestre.first()
-                        print(trimestreEncontrado.id)
                     else:
                         trimestreEncontrado = Trimestre(id=trimestreEst)
                         trimestreEncontrado.save()
+                        print('TRIMESTRE CREADO: ' + trimestreEst)
                     print('----trimestreEst: '+trimestreEst)
+
                     inicio = False
                 else:
                     if para == False:
@@ -77,17 +80,35 @@ def read_csv(lista, trimestre_limite):
                         break
                     elif linea[1] != trimestre_limite:
 
-                        #cursaEncontrado = Cursa(estudiante=estudianteEncontrado, trimestre=trimestreEncontrado, creditosAprobados=cred_aprobados)
-                        #cursaEncontrado.save()
-                        print('=========  ' + carnetEst + ' --curso-- ' + trimestreEst + ' --cred_aprobados-- ' + str(cred_aprobados))
+                        estatusCursa = Cursa.objects.filter(estudiante=estudianteEncontrado,trimestre=trimestreEncontrado)
+                        if estatusCursa.count() != 0:
+                            print('CURSA ENCONTRADO')
+                        else:
+                            cursaEncontrado = Cursa(estudiante=estudianteEncontrado, trimestre=trimestreEncontrado, creditosAprobados=cred_aprobados)
+                            cursaEncontrado.save()
+                            print('CURSA CREADO: ' + nombreEst + ' - ' + trimestreEst)
+
+                        print('=========  ' + carnetEst + ' --curso-- ' + trimestreEst + ' --cred_aprobados-- ' + str(
+                            cred_aprobados))
+
                         trimestreEst = linea[1]
+
                         estatusTrimestre = Trimestre.objects.filter(id=trimestreEst)
                         if estatusTrimestre.count() != 0:
+                            print('TRIMESTRE ENCONTRADO')
                             trimestreEncontrado = estatusTrimestre.first()
                             print(trimestreEncontrado.id)
                         else:
                             trimestreEncontrado = Trimestre(id=trimestreEst)
                             trimestreEncontrado.save()
+                            print('TRIMESTRE CREADO: ' + trimestreEst)
+
+
+                        #cursaEncontrado = Cursa(estudiante=estudianteEncontrado, trimestre=trimestreEncontrado, creditosAprobados=cred_aprobados)
+                        #cursaEncontrado.save()
+                        #print('=========  ' + carnetEst + ' --curso-- ' + trimestreEst + ' --cred_aprobados-- ' + str(cred_aprobados))
+                        #trimestreEst = linea[1]
+
 
                         print('----trimestreEst: '+trimestreEst)
                         cred_aprobados = 0
@@ -105,6 +126,15 @@ def read_csv(lista, trimestre_limite):
                     print('Paso')
                 else:
                     print('Raspo')
+
+        estatusCursa = Cursa.objects.filter(estudiante=estudianteEncontrado, trimestre=trimestreEncontrado)
+        if estatusCursa.count() != 0:
+            print('CURSA ENCONTRADO')
+        else:
+            cursaEncontrado = Cursa(estudiante=estudianteEncontrado, trimestre=trimestreEncontrado,
+                                    creditosAprobados=cred_aprobados)
+            cursaEncontrado.save()
+            print('CURSA CREADO: ' + nombreEst + ' - ' + trimestreEst)
         #cursaEncontrado = Cursa(estudiante=estudianteEncontrado, trimestre=trimestreEncontrado, creditosAprobados=cred_aprobados)
         #cursaEncontrado.save()
         print('=========  ' + carnetEst + ' --curso-- ' + trimestreEst + ' --cred_aprobados-- ' + str(cred_aprobados))
