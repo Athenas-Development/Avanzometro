@@ -25,7 +25,8 @@ Proyecto de Ingenieria de Software. Trimestre Septiembre - Diciembre 2017.
 - Descargar e Instalar PostgreSQL 9.X
 - Iniciar sesión como usuario postgres y crear la BD Avanzometro:
 ```
-sudo -su postgres
+sudo su postgres
+psql
 CREATE DATABASE "Avanzometro";
 ```
 - Crear usuario Avanzometro y garantarizar el acceso a la BD:
