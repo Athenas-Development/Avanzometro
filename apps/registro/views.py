@@ -5,7 +5,8 @@ from apps.registro.forms import RegistroForm
 from django.http import HttpResponse
 from apps.registro.grafica import crear_grafica, getcreditsbytrandct
 from django.contrib.auth.decorators import login_required
- 
+from apps.registro.models import Estudiante
+
 # Create your views here.
 
 class RegistroUsuario(CreateView):
@@ -26,11 +27,15 @@ def instantanea(request):
         anio = request.POST.get('anio')
         cohorte = request.POST.get('Cohorte')
         carrera = request.POST.get('carrera')
-        cohorte = cohorte + " " + anio
+        trimestre = trimestre + " " + anio
+        print(cohorte)
+        print(trimestre)
 
-        total_de_estudiantes = 20
+        total_de_estudiantes = Estudiante.objects.filter(cohorte_id = cohorte).count()
         lista = getcreditsbytrandct(trimestre, cohorte)
+        cohorte_string = "Cohorte " + cohorte
+        trimestre_string = "Trimestre " + trimestre
 
-        crear_grafica(cohorte, carrera, trimestre, total_de_estudiantes, lista)
+        crear_grafica(cohorte_string, carrera, trimestre_string, total_de_estudiantes, lista)
 
     return render(request, "instantanea.html", {'rangeano': range(1968,2018), 'rangecohorte': list1})
