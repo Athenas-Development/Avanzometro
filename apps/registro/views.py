@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.views.generic import CreateView
 from apps.registro.forms import RegistroForm
 from django.http import HttpResponse
-from apps.registro.grafica import crear_grafica
+from apps.registro.grafica import crear_grafica, getcreditsbytrandct
 from django.contrib.auth.decorators import login_required
  
 # Create your views here.
@@ -29,7 +29,7 @@ def instantanea(request):
         cohorte = cohorte + " " + anio
 
         total_de_estudiantes = 20
-        lista = [1, 0, 3, 4, 1, 1, 2, 3, 1, 4, 0, 0, 0, 0, 0, 0]
+        lista = getcreditsbytrandct(trimestre, cohorte)
 
         crear_grafica(cohorte, carrera, trimestre, total_de_estudiantes, lista)
 
