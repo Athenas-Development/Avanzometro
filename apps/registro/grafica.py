@@ -4,8 +4,34 @@ import matplotlib.pyplot as plt
 from django.shortcuts import render
 import numpy as np
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-
+from apps.registro.models import *
 #import matplotlib as matplt
+
+def getcreditsbytrandct(trimestre_dado, cohorte_dada):
+    EstudiantesDeCohorteCT = Estudiante.objects.filter(cohorte_id = cohorte_dada)
+    print(Estudiante.objects.first().cohorte_id)
+
+    listadeCursaporEstdecohortect = []
+    for estudianteCT in EstudiantesDeCohorteCT:
+        listadeCursaporEstdecohortect.append(Cursa.objects.filter(estudiante = estudianteCT))
+
+
+    trimestres = ['Sep-Dic ' + str(int(cohorte_dada)), 'Ene-Mar '+ str(int(cohorte_dada)+1), 'Abr-Jul '+ str(int(cohorte_dada)+1), 'Sep-Dic ' + str(int(cohorte_dada)+1), 'Ene-Mar '+ str(int(cohorte_dada)+2), 
+        'Abr-Jul '+str(int(cohorte_dada)+2), 'Sep-Dic ' + str(int(cohorte_dada)+2), 'Ene-Mar '+ str(int(cohorte_dada)+3), 'Abr-Jul '+str(int(cohorte_dada)+3), 'Sep-Dic ' + str(int(cohorte_dada)+3), 
+        'Ene-Mar '+ str(int(cohorte_dada)+4), 'Abr-Jul '+str(int(cohorte_dada)+4),'Sep-Dic ' + str(int(cohorte_dada)+4), 'Ene-Mar '+ str(int(cohorte_dada)+5), 'Abr-Jul '+str(int(cohorte_dada)+5)]
+
+    lista = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+    for cursa_est in listadeCursaporEstdecohortect:
+        creditos = 0
+        for i in trimestres:
+            if cursa_est.filter(trimestre_id = i).count() > 0:
+                creditos += cursa_est.filter(trimestre_id = i).first().creditosAprobados
+            if i == trimestre_dado:
+                break
+        lista[int((creditos -1)/ 16) + 1] += 1
+
+    return lista
 
 def crear_grafica(cohorte, carrera, trimestre, total_estudiantes, lista):
 
@@ -24,7 +50,7 @@ def crear_grafica(cohorte, carrera, trimestre, total_estudiantes, lista):
     # lista = [3, 8]
 
     # Statico
-    datos = ['0%', '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%']
+    datos = ['0%', '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%', '']
     creditos = []
 
     # arreglo que contendra un % con respecto al 100 % de la cohorte
@@ -90,7 +116,7 @@ def crear_grafica(cohorte, carrera, trimestre, total_estudiantes, lista):
     # nombres, titulos y leyenda y frontera del eje y
     plt.xlabel("Creditos", fontsize=18)
     plt.ylabel("% de Estudiantes", fontsize=18)
-    plt.ylim(0, 10)
+    plt.ylim(0, 11)
 
     # plt.text(10, 30, "probando")
     plt.title(titulo, fontsize=20)
