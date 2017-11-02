@@ -9,12 +9,14 @@ import time
 
 class HomePageTest(LiveServerTestCase):
 
+	#Prueba:
 	#Test que verifica que cargan correctamente las paginas
 	def test_uses_home_template(self):
 		response = self.client.get('/')
 		self.assertTemplateUsed(response, 'login.html')
 		self.assertTemplateUsed(response, 'layout.html')
 
+	#Prueba:
 	#Test que verifica que el login de un usuario que se encuentra en la db se realiza correctamente
 	def test_successful_login(self):
 
