@@ -30,16 +30,16 @@ def getcreditsbytrandct(trimestre_dado, cohorte_dada):
     for cursa_est in listadeCursaporEstdecohortect:
         creditos = 0
         for i in trimestres:
-            print(i)
-            print(cursa_est.first().trimestre_id)
-            print()
-            print()
             if cursa_est.filter(trimestre_id = i).count() > 0:
+
                 creditos += cursa_est.filter(trimestre_id = i).first().creditosAprobados
+                
             if i == trimestre_dado:
                 break
-
-        lista[int((creditos -1)/ 16) + 1] += 1
+        if creditos == 0:
+            lista[0] += 1
+        else:
+            lista[int((creditos -1)/ 16) + 1] += 1
     print(lista)
 
     return lista
