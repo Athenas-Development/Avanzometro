@@ -17,14 +17,14 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth.views import login
 from apps.registro.views import instantanea
-from apps.login.views import logout
-from django.conf import settings
+from apps.login.views import logout_then_login
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'$^', login, {'template_name':'login.html'}),
     url(r'^registro/', include('apps.registro.urls')),
     url(r'^instantanea/', instantanea),
-    url(r'^logout/$', logout, {'next_page':settings.LOGOUT_REDIRECT_URL})
+    url(r'^logout/$', logout_then_login)
 
 ]

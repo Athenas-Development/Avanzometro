@@ -4,6 +4,7 @@ from django.views.generic import CreateView
 from apps.registro.forms import RegistroForm
 from django.http import HttpResponse
 from apps.registro.grafica import crear_grafica
+from django.contrib.auth.decorators import login_required
  
 # Create your views here.
 
@@ -13,7 +14,7 @@ class RegistroUsuario(CreateView):
     form_class = RegistroForm
     success_url = '/'
 
-
+@login_required
 def instantanea(request):
     list1 = []
     for i in range(68,118):
