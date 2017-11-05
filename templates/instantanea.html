@@ -57,7 +57,10 @@
     <div class="col-md-12">
         <h2 class="text-center">
             <b>Gráfica Resultado</b>
-        </h2><img alt="Grafica Avanzometro" src='{% static 'grafica.png' %}' class="img-responsive">
+        </h2>
+        <div class = "chart_title" style="margin-left: -140px">
+            {{ grafica|safe }}
+        </div>
     </div>
 
 </div>

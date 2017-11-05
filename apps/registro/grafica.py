@@ -5,6 +5,7 @@ from django.shortcuts import render
 import numpy as np
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from apps.registro.models import *
+import mpld3
 #import matplotlib as matplt
 
 def getcreditsbytrandct(trimestre_dado, cohorte_dada):
@@ -25,7 +26,7 @@ def getcreditsbytrandct(trimestre_dado, cohorte_dada):
         'Abr-Jul '+ apendboy +str(int(cohorte_dada)+2), 'Sep-Dic ' + apendboy + str(int(cohorte_dada)+2), 'Ene-Mar '+ apendboy + str(int(cohorte_dada)+3), 'Abr-Jul '+ apendboy +str(int(cohorte_dada)+3), 'Sep-Dic ' + apendboy + str(int(cohorte_dada)+3), 
         'Ene-Mar '+ apendboy + str(int(cohorte_dada)+4), 'Abr-Jul '+ apendboy +str(int(cohorte_dada)+4),'Sep-Dic ' + apendboy + str(int(cohorte_dada)+4), 'Ene-Mar '+ apendboy + str(int(cohorte_dada)+5), 'Abr-Jul '+ apendboy +str(int(cohorte_dada)+5)]
 
-    lista = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    lista = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
     for cursa_est in listadeCursaporEstdecohortect:
         creditos = 0
@@ -39,7 +40,10 @@ def getcreditsbytrandct(trimestre_dado, cohorte_dada):
         if creditos == 0:
             lista[0] += 1
         else:
-            lista[int((creditos -1)/ 16) + 1] += 1
+            if creditos <= 240:
+                lista[int((creditos -1)/ 16) + 1] += 1
+            else:
+                lista[-1] += 1
     print(lista)
 
     return lista
@@ -48,17 +52,11 @@ def crear_grafica(cohorte, carrera, trimestre, total_estudiantes, lista):
 
     carrera = carrera
     total_de_estudiantes = total_estudiantes
-    # total_de_creditos_carrera = 0
-    # total_de_creditos_carrera = 1
-    # total_de_creditos_carrera = 2
-    # total_de_creditos_carrera = 224
     total_de_creditos_carrera = 240
     cohorte = cohorte
     trimestre = trimestre
-    titulo = cohorte + "\n" + trimestre
+    titulo = cohorte + '\n' + trimestre
     lista = lista
-    # lista = [15]
-    # lista = [3, 8]
 
     # Statico
     datos = ['0%', '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%', '']
@@ -105,6 +103,7 @@ def crear_grafica(cohorte, carrera, trimestre, total_estudiantes, lista):
             pass
         string = ""
 
+    creditos.append("240+")
     # OJO: La longitud de creditos debe ser igual a la longitud de la lista que contiene el numero de estudiantes por trimestre
 
 
@@ -125,14 +124,11 @@ def crear_grafica(cohorte, carrera, trimestre, total_estudiantes, lista):
     plt.xticks(idsx, creditos, fontsize=14)  # labels del eje horizontal
 
     # nombres, titulos y leyenda y frontera del eje y
-    plt.xlabel("Creditos", fontsize=18)
+    plt.xlabel("Créditos", fontsize=18)
     plt.ylabel("% de Estudiantes", fontsize=18)
     plt.ylim(0, 11)
 
-    # plt.text(10, 30, "probando")
     plt.title(titulo, fontsize=20)
     plt.legend(bbox_to_anchor=(0, 0, 1, 1), fontsize=15, loc=2, shadow=True)  # loc= "lower left"
-    plt.savefig(fname="static/grafica.png", dpi=100)
-    # matplt.legend.Legend(bbox_to_anchor =(0,0,1,1), fontsize=15, loc=3, shadow=True)
-
-    #plt.show()
+    #plt.savefig(fname="static/grafica.png", dpi=100)
+    return mpld3.fig_to_html(fig)

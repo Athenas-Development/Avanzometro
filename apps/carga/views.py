@@ -4,9 +4,10 @@ from apps.registro.models import *
 from apps.carga.models import *
 from .forms import DocumentForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
-#Funcion de lectura de archivo para separar el archivo csv por estudiantes
-def separar_estudiantes(archivo, trimestre_limite="xxx-xxx xxxx"):
+# Funcion de lectura de archivo para separar el archivo csv por estudiantes
+def separar_estudiantes(archivo,  request, trimestre_limite="xxx-xxx xxxx"):
     with open(archivo) as f:
         # Lectura del archivo .csv y lo separa por ; y | 
         archivo12 = csv.reader(f, delimiter=';', quotechar='|') 
@@ -26,11 +27,11 @@ def separar_estudiantes(archivo, trimestre_limite="xxx-xxx xxxx"):
 
     # Pasa por alto el primer arreglo vacio creado y realiza lectura de lista completa
     # de los expedientes de estudiantes delimitandolos por un trimestre dado
-    return read_csv(listaEstudiantes[1:len(listaEstudiantes)], trimestre_limite)
+    return read_csv(listaEstudiantes[1:len(listaEstudiantes)], trimestre_limite, request)
 
 
-#Funcion para leer la lista de los estudiantes y va agregando los datos en las base de datos
-def read_csv(lista, trimestre_limite):
+# Funcion para leer la lista de los estudiantes y va agregando los datos en las base de datos
+def read_csv(lista, trimestre_limite, request):
     estudianteEncontrado = None
     
     #Ciclo para cada estudiante 
@@ -114,12 +115,18 @@ def read_csv(lista, trimestre_limite):
                         para = False
             # Lectura de todas las asignaturas cursadas en ese trimestre por el estudiante
             else:
-                if str(linea[2]) == 'R':  # Asignatura fue retirada
-                    pass
-                elif int(linea[2]) >= 3:  # Asignatura aprobada
-                    cred_aprobados += int(linea[3])  #Actualizacion de contador de creditos aprobados
-                else:  # Creditos insuficientes para aprobacion de asignatura
-                    pass
+                if int(linea[3]) >= 0:
+                    if str(linea[2]) == 'R' or int(linea[2]) == 2 or int(linea[2]) == 1:  # Asignatura fue retirada o no aprobada
+                        pass
+                    elif int(linea[2]) >= 3:  # Asignatura aprobada
+                        cred_aprobados += int(linea[3])  # Actualizacion de contador de creditos aprobados
+                    else:  # Nota Invalida.
+                        messages.error(request, 'Datos del documentos invalidos.')
+                        return
+                else:  # Cantidad de Creditos Invalida.
+                    messages.error(request, 'Datos del documentos invalidos.')
+                    return
+
         # Lectura del ultimo trimestre cursado por el estudiante                        
         # Verificacion de datos correspondientes a cada curso presente en la base de datos
         estatusCursa = Cursa.objects.filter(estudiante=estudianteEncontrado, trimestre=trimestreEncontrado)
@@ -129,6 +136,10 @@ def read_csv(lista, trimestre_limite):
             cursaEncontrado = Cursa(estudiante=estudianteEncontrado, trimestre=trimestreEncontrado,
                                     creditosAprobados=cred_aprobados)
             cursaEncontrado.save()
+
+        messages.success(request, 'Archivo cargado exitosamente.')
+
+
 
 #Controlador que manda vista formulario de carga de archivo para cargar los estudiantes en la base de datos
 @login_required
@@ -144,6 +155,9 @@ def cargarArchivo(request):
     if documento.objects.count() != 0:
         filetoload = str(documento.objects.order_by().reverse().first().documento)
 
-        separar_estudiantes(filetoload)
+        separar_estudiantes(filetoload, request)
 
-    return render(request, 'cargaArchivo.html', {'form':form})
+
+    return render(request, 'cargaArchivo.html', {'form':form, 'msg':list(messages.get_messages(request))[-1]})
+
+

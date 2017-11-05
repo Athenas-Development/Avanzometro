@@ -23,6 +23,7 @@ class RegistroUsuario(CreateView):
 def instantanea(request):
     cache.clear()
     list1 = []
+    grafica = crear_grafica('Cohorte: XX', '', 'Trimestre: XXX-XXX XXXX', 10, [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
     for i in range(68,118):
         a = str(i)[-2] + str(i)[-1]
         list1.append(a)
@@ -38,9 +39,9 @@ def instantanea(request):
 
         total_de_estudiantes = Estudiante.objects.filter(cohorte_id = cohorte).count()
         lista = getcreditsbytrandct(trimestre, cohorte)
-        cohorte_string = "Cohorte " + cohorte
-        trimestre_string = "Trimestre " + trimestre
+        cohorte_string = "Cohorte: " + cohorte
+        trimestre_string = "Trimestre: " + trimestre
 
-        crear_grafica(cohorte_string, carrera, trimestre_string, total_de_estudiantes, lista)
+        grafica = crear_grafica(cohorte_string, carrera, trimestre_string, total_de_estudiantes, lista)
 
-    return render(request, "instantanea.html", {'rangeano': range(1968,2018), 'rangecohorte': list1})
+    return render(request, "instantanea.html", {'rangeano': range(1968,2018), 'rangecohorte': list1, 'grafica': grafica})
