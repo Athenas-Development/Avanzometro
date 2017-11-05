@@ -16,10 +16,12 @@ Proyecto de Ingenieria de Software. Trimestre Septiembre - Diciembre 2017.
   - Django
   - Psycopg2
   - MatPlotLib
+  - NumPy
   - Selenium
   - Firefox
   - Postgresql
-  - NumPy
+  - Mpld3
+  - Jinja2
   
 ## Pasos para la instalación de la DB:
 - Descargar e Instalar PostgreSQL 9.X
@@ -47,4 +49,8 @@ GRANT ALL PRIVILEGES ON DATABASE "Avanzometro" to "Avanzometro";
  python -m pip install selenium --upgrade
  
  python -m pip install numpy --upgrade
+ 
+ python -m pip install mpld3 --upgrade
+ 
+ python -m pip install jinja2 --upgrade
  ```
