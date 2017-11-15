@@ -109,8 +109,9 @@ def separar_estudiantes_V2(archivo, request, trimestre_limite="xxx-xxx xxxx"):
                     else:
                         messages.error(request, 'Datos del documentos invalidos.')
                         return
-
+                print(trim)
                 listaEstudiantes.append(expEstudiantes)
+                print(listaEstudiantes)
 
     return read_csv(listaEstudiantes, trimestre_limite, request)
 
@@ -244,7 +245,7 @@ def cargarArchivo(request):
 
         separar_estudiantes_V2(filetoload, request)
 
-    return render(request, 'cargaArchivo.html', {'form': form, 'msg': list(messages.get_messages(request))[-1]})
+    return render(request, 'cargaArchivo.html', {'form': form, 'msg': list(messages.get_messages(request))})
 
 
 

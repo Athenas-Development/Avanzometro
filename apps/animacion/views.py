@@ -49,10 +49,10 @@ def obtenerMatriz(cohorte):
     print(trimestresVistos)
     print(matriz)
 
-    for i in matriz:
-        for j in i:
-            j = j * 100 / cuenta
-
+    for i in range(len(matriz)):
+        for j in range(len(matriz[i])):
+            matriz[i][j] = matriz[i][j] * 100 / cuenta
+    print(matriz)
     return [matriz, trimestresVistos]
 
 @login_required
@@ -64,7 +64,7 @@ def animacion(request):
         list1.append(a)
 
     # Crear grafica vacia
-    porcentaje = [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    porcentaje = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     creditos = ['0', '1-16', '17-32', '33-48', '49-64', '65-80', '81-96',
                 '97-112', '113-128', '129-144', '145-160', '161-176', '177-192',
                 '193-208', '209-224', '225-240', '240+']
@@ -76,6 +76,7 @@ def animacion(request):
 
 
     data2 = []
+    carrera = "Leyenda"
     if request.POST:
         cohorte = request.POST.get('Cohorte')
         carrera = request.POST.get('carrera')
@@ -85,8 +86,9 @@ def animacion(request):
         matriz = matriz[1:-1]
         cohorte_string = "Cohorte: " + cohorte
 
+    tr = 1
 
-    for j in range(len(trimestres)):
+    for j in range(len(matriz)):
         for i in range(17):
             dictdata = {'Porcentaje': matriz[j][i],
                         'Creditos': creditos[i],
@@ -100,4 +102,4 @@ def animacion(request):
     trimestresReversed = reversed(trimestres)
 
     return render(request, "animacion.html", {'rangecohorte': list1, 'data2': data2,
-                                                'trimestres': trimestres, "trimestresReversed": trimestresReversed})
+                                                'trimestres': trimestres, "trimestresReversed": trimestresReversed, "carrera": carrera})
