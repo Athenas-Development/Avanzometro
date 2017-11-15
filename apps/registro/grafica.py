@@ -48,6 +48,56 @@ def getcreditsbytrandct(trimestre_dado, cohorte_dada):
 
     return lista
 
+def obtenerMatriz(cohorte):
+    matriz = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
+    EstudianteDeCohorte = Estudiante.objects.filter(cohorte_id = cohorte)
+    print('id cohorte: ' + str(Estudiante.objects.first().cohorte_id))
+    #for x in EstudianteDeCohorte:
+     #   print(x.cohorte_id)
+      #  print(x.carnet)
+    cuenta = EstudianteDeCohorte.count()
+    numeroTrimestres = 0
+    trimestresVistos = []
+    listaEstudiantes = []
+
+    if int(cohorte) >= 68:
+        apendboy = '19'
+    else:
+        apendboy = '20'
+    cohorte_dada = cohorte
+
+    trimestress = ['Sep-Dic ' + apendboy + str(int(cohorte_dada)), 'Ene-Mar '+ apendboy + str(int(cohorte_dada)+1), 'Abr-Jul '+ apendboy + str(int(cohorte_dada)+1), 'Sep-Dic ' + apendboy + str(int(cohorte_dada)+1), 'Ene-Mar '+ apendboy + str(int(cohorte_dada)+2),
+        'Abr-Jul '+ apendboy +str(int(cohorte_dada)+2), 'Sep-Dic ' + apendboy + str(int(cohorte_dada)+2), 'Ene-Mar '+ apendboy + str(int(cohorte_dada)+3), 'Abr-Jul '+ apendboy +str(int(cohorte_dada)+3), 'Sep-Dic ' + apendboy + str(int(cohorte_dada)+3),
+        'Ene-Mar '+ apendboy + str(int(cohorte_dada)+4), 'Abr-Jul '+ apendboy +str(int(cohorte_dada)+4),'Sep-Dic ' + apendboy + str(int(cohorte_dada)+4), 'Ene-Mar '+ apendboy + str(int(cohorte_dada)+5), 'Abr-Jul '+ apendboy +str(int(cohorte_dada)+5)]
+
+
+    for estudianteAct in EstudianteDeCohorte:
+        print(estudianteAct.nombre)
+        CursasEsatudiante = Cursa.objects.filter(estudiante = estudianteAct)
+        for cursaAct in CursasEsatudiante:
+            trimestreVar = cursaAct.trimestre.id
+            print(trimestreVar)
+            if trimestreVar in trimestresVistos:
+                posicion = trimestress.index(trimestreVar) + 1
+                creditos = cursaAct.creditosAprobados
+                print(creditos)
+                if creditos <= 240:
+                    matriz[posicion][int((creditos - 1)/ 16) + 1] += 1
+                else:
+                    matriz[posicion][16] += 1
+            else:
+                trimestresVistos.append(trimestreVar)
+                temp = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+                matriz.append(temp)
+    print(trimestresVistos)
+    print(matriz)
+
+    for i in matriz:
+        for j in i:
+            j = j * 100 / cuenta
+
+    return [matriz, trimestresVistos]
+
 def crear_grafica(cohorte, carrera, trimestre, total_estudiantes, lista):
 
     carrera = carrera
