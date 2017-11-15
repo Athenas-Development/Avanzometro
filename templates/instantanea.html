@@ -54,14 +54,35 @@
         </div>
     </form>
 
-    <div class="col-md-12">
+    <div class="container-fluid">
         <h2 class="text-center">
             <b>Gráfica Resultado</b>
         </h2>
-        <div class = "chart_title" style="margin-left: -140px">
-            {{ grafica|safe }}
+        <script src="http://d3js.org/d3.v4.min.js"></script>
+        <script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
+
+        <div id="chartContainer" style="height: 768px; width: 1336px; margin-left: -150px">
+            <script type="text/javascript">
+                var svg = dimple.newSvg("#chartContainer", 1366, 768);
+                var data2 = JSON.parse('{{ data2 | escapejs}}');
+                var chart = new dimple.chart(svg, data2);
+
+                chart.addCategoryAxis("x", "creditos");
+                chart.addMeasureAxis("y", "porcentaje");
+                chart.addSeries(null, dimple.plot.bar);
+                chart.draw();
+            </script>
         </div>
     </div>
 
 </div>
+{% endblock %}
+
+{% block footer %}
+    <footer class="container-fluid footer">
+        <div class="row">
+            <p class="text-center minText"> Universidad Simon Bolivar<br>Sartenejas, Baruta, Edo. Miranda - Apartado 89000 - Cable Unibolivar - Caracas Venezuela. Teléfono +58 0212-9063111.<br>
+Diseñada y desarrollada por Athenas-Development</p>
+        </div>
+    </footer>
 {% endblock %}

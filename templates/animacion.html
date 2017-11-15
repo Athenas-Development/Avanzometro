@@ -1,0 +1,53 @@
+{% extends 'layout.html' %}
+{% load staticfiles %}
+
+<!DOCTYPE html>
+
+
+{% block content %}
+<div class="container-fluid">
+    <form method="post" style="margin-top: 90px">
+         {% csrf_token %}
+        <div class="row">
+            <div class ="col-md-4" id="Cohorte">
+                <label for="Cohorte" > Cohorte: </label>
+                    <select class="select-style" id="Cohorte" name="Cohorte" required>
+                        <option value=" " disable >Seleccione uno</option>
+                        {% for i in rangecohorte %}
+                        <option value="{{i}}" >{{i}}</option>
+                        {% endfor %}
+                    </select>
+            </div>
+
+            <div class ="col-md-4">
+                <label for="cedula">Carrera: </label>
+                <input type="text" id="carera" name="carrera" required>
+            </div>
+
+            <div class ="col-md-4">
+                <label for="cedula">Milisegundos por imagen: </label>
+                <input type="number" min="100" max="2000" step="100" value="100" class="text-right" name="PromedioEntero" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 text-center" style="margin-top: 50px">
+                <div class="form-group">
+                    <!--<button class="btn btn-primary"  type="submit"><span class="glyphicon glyphicon-share-alt"></span> Cargar Datos </button>-->
+                    <button class="btn btn-primary"  type="submit"><span class="glyphicon glyphicon-share-alt"></span> Cargar Datos </button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="col-md-12">
+        <h2 class="text-center">
+            <b>Animación Resultado</b>
+        </h2>
+        <div class = "col-sm-12" style="margin-left: -5 0px">
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

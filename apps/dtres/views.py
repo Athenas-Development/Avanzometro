@@ -16,7 +16,7 @@ def dtres(request):
 		print('hi')
 		data2.append(dictdata)
 
-	#data = [
+	#data2 = [
     #  { "Word":"Hello", "Awesomeness":2000 },
     #  { "Word":"World", "Awesomeness":3000 }
     #]
@@ -24,5 +24,5 @@ def dtres(request):
 	print(data2)
 	data2 = json.dumps(data2)
 
-	return render(request, "d3.html", {'data2':data2})
+	return render(request, "instantanea.html", {'data2':data2})
 
