@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+{% load staticfiles %}
+
+
+
+{% block content %}
+<body>
+    <div class="container">
+        <script src="http://d3js.org/d3.v4.min.js"></script>
+        <script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
+        <script type="text/javascript">
+            var svg = dimple.newSvg("body", 1366, 768);
+            var data = JSON.parse('{{ data | escapejs}}');
+            var chart = new dimple.chart(svg, data);
+            chart.addCategoryAxis("x", "Word");
+            chart.addMeasureAxis("y", "Awesomeness");
+            chart.addSeries(null, dimple.plot.bar);
+            chart.draw();
+        </script>
+    </div>
+</body>
+{% endblock %}
