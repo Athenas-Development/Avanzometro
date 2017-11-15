@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'apps.login',
     'apps.registro',
     'apps.carga',
-    'apps.dtres'
+	'apps.instantanea',
+    'apps.animacion'
 ]
 
 MIDDLEWARE = [
