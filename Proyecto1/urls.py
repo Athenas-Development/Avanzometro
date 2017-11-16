@@ -16,10 +16,10 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth.views import login
-
 from apps.carga.views import cargarArchivo
 from apps.login.views import logout_then_login
-from apps.registro.views import instantanea
+from apps.instantanea.views import instantanea
+from apps.animacion.views import animacion
 
 #Urls a los que redirecciona todas las paginass dentro de el software
 
@@ -29,5 +29,6 @@ urlpatterns = [
     url(r'^registro/', include('apps.registro.urls')),
     url(r'^instantanea/', instantanea),
     url(r'^cargaArchivo/', cargarArchivo),
-    url(r'^logout/$', logout_then_login)
+    url(r'^logout/$', logout_then_login),
+    url(r'^animacion/$', animacion),
 ]

@@ -3,17 +3,24 @@
 {% block content %}
 <div class="container">
 
+	<div class="row filas " style="margin-top: 60px">
+        {% if msg %}
+          <div class="alert {{ msg.tags }} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            {% if msg.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %} <strong><span class="glyphicon glyphicon-ok"></span> PERFECTO: </strong> {% endif %}
+            {% if msg.level == DEFAULT_MESSAGE_LEVELS.ERROR %} <strong><span class="glyphicon glyphicon-remove"></span> ERROR: </strong> {% endif %}
+            {{ msg }}
+          </div>
+        {% endif %}
 
-	<div class="row filas " style="margin-top: 90px">
-		<div class="col-sm-3 columnas"></div>
-		<div class="col-sm-6 columnas">
+        <div class="col-sm-3"></div>
+		<div class="col-sm-6">
 			<form class="form-group " method="POST" enctype="multipart/form-data">
 				{% csrf_token %}
                 <div class="col-sm-offset-2">
                     <h4>Seleccione un archivo .csv para cargar Estudiantes: </h4>
-                    <!--<label class="btn btn-default btn-file">
-                        Explorar <input name="Archivo" type="file" style="display: none;" onchange="checkfile(this); this.form.submit();">
-                    </label>-->
                     <div class="col-sm-offset-3">
                         {{form.as_p}}
                     </div>
@@ -25,10 +32,9 @@
                 </div>
 			</form>
 		</div>
-		<div class="col-sm-3 columnas"></div>
 	</div>
 
-	<div class="row filas"></div>
+	<div class="row"></div>
 
 </div>
 
