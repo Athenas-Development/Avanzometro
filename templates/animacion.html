@@ -44,12 +44,12 @@
         <h2 class="text-center">
             <b>Animación Resultado</b>
         </h2>
-        <div class = "col-sm-12" id ="chartContainer" style="height: 768px; width: 1336px; margin-left: -150px">
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <div class = "col-sm-12" id ="chartContainer" style="height: 650px; width: 1336px; margin-left: -150px">
+              <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
               <script src="http://d3js.org/d3.v4.min.js"></script>
               <script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
               <script type="text/javascript">
-                  var svg = dimple.newSvg("#chartContainer", 1366, 768);
+                  var svg = dimple.newSvg("#chartContainer", 1366, 650);
                   var data = JSON.parse('{{ data2 | escapejs}}');
 
                   // Filter for 1 year
@@ -59,7 +59,6 @@
                   for (i = 0; i < count; i++){
                     arreglo.push(data[i]['Trimestre'])
                   }
-                  window.alert(arreglo);
                   data = dimple.filterData(data, "Trimestre", arreglo);
 
 
@@ -131,7 +130,7 @@
                   var y = bubbles.addMeasureAxis("y", "Porcentaje");
                   y.overrideMax = 100;
 
-                  bubbles.addSeries(null, dimple.plot.bar)
+                  bubbles.addSeries("Leyenda", dimple.plot.bar)
                   bubbles.addLegend(60, 10, 410, 60);
 
                   // Add a storyboard to the main chart and set the tick event
@@ -146,7 +145,7 @@
 
                   // Orphan the legends as they are consistent but by default they
                   // will refresh on tick
-                  bubbles.legends = [{{ carrera }}];
+                  bubbles.legends = [];
                   // Remove the storyboard label because the chart will indicate the
                   // current month instead of the label
                   story.storyLabel.remove();
@@ -180,18 +179,47 @@
 
                   $(document).ready(function() {
                     $('#aumentar').on('click',function(){
-                      var story = bubbles.setStoryboard("Trimestre", onTick);
-                      frame = frame - 500;
-                      story.frameDuration = frame;
-                      bubbles.draw();
+                        if (frame > 500) {
+                            story.pauseAnimation();
+                            frame = frame - 500;
+                            story.frameDuration = frame;
+                            bubbles.draw();
+                            story.storyLabel.remove();
+                        }
+                    });
+                  });
+
+                  $(document).ready(function() {
+                    $('#disminuir').on('click',function(){
+                        if (frame < 3000) {
+                            story.pauseAnimation();
+                            frame = frame + 500;
+                            story.frameDuration = frame;
+                            bubbles.draw();
+                            story.storyLabel.remove();
+                        }
+                    });
+                  });
+
+                  $(document).ready(function() {
+                    $('#pausa').on('click',function(){
+                        story.pauseAnimation();
+                    });
+                  });
+
+                  $(document).ready(function() {
+                    $('#play').on('click',function(){
+                        story.startAnimation();
                     });
                   });
               </script>
         </div>
 
         <div>
-            <button id="aumentar" >Aumentar</button>
-            <button id="disminuir">Disminuir</button>
+            <button class="btn btn-primary" id="aumentar" type="submit"> Aumentar </button>
+            <button class="btn btn-primary" id="disminuir">Disminuir</button>
+            <button class="btn btn-primary" id="pausa">Pausar</button>
+            <button class="btn btn-primary" id="play">Play</button>
         </div>
     </div>
 

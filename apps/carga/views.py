@@ -245,7 +245,11 @@ def cargarArchivo(request):
 
         separar_estudiantes_V2(filetoload, request)
 
-    return render(request, 'cargaArchivo.html', {'form': form, 'msg': list(messages.get_messages(request))})
+    msg = None
+    if list(messages.get_messages(request)) != 0:
+        msg = list(messages.get_messages(request))[-1]
+
+    return render(request, 'cargaArchivo.html', {'form': form, 'msg': msg})
 
 
 

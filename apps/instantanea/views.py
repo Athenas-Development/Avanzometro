@@ -58,7 +58,7 @@ def getcreditsbytrandct(trimestre_dado, cohorte_dada):
 
 @login_required
 def instantanea(request):
-	porcentaje = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	porcentaje = [1, 2, 4, 8, 16, 32, 64, 32, 16, 8, 4, 2, 1, 0, 0, 0, 0]
 	creditos = ['0', '1-16', '17-32', '33-48', '49-64', '65-80', '81-96',
 				'97-112', '113-128', '129-144', '145-160', '161-176', '177-192',
 				'193-208', '209-224', '225-240', '240+']
@@ -68,18 +68,19 @@ def instantanea(request):
 		a = str(i)[-2] + str(i)[-1]
 		list1.append(a)
 
-	carrera = "Leyenda"
+	carrera = "Carrera"
 	if request.POST:
 		cohorte = request.POST.get('Cohorte')
 		trimestre = request.POST.get('Trimestre')
 		anio = request.POST.get('anio')
-		carrera = request.POST.get('carera')
+		carrera = request.POST.get('carrera')
 
 		porcentaje = getcreditsbytrandct(trimestre, int(cohorte))
 
 	for i in range(17):
 		dictdata = {'porcentaje': porcentaje[i],
-					'creditos': creditos[i]}
+					'creditos': creditos[i],
+					'leyenda': carrera}
 
 		data2.append(dictdata)
 
