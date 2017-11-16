@@ -210,7 +210,7 @@ def read_csv(lista, trimestre_limite, request):
                             linea[2]) == 1:  # Asignatura fue retirada o no aprobada
                         pass
                     elif int(linea[2]) >= 3:  # Asignatura aprobada
-                        cred_aprobados += int(linea[3])  # Actualizacion de contador de creditos aprobados
+                        cred_aprobados = int(linea[3])  # Actualizacion de contador de creditos aprobados
                     else:  # Nota Invalida.
                         messages.error(request, 'Datos del documentos invalidos.')
                         return

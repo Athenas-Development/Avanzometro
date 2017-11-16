@@ -69,13 +69,24 @@ def instantanea(request):
 		list1.append(a)
 
 	carrera = "Carrera"
+	trimestre = "XXX-XXX"
+	anio = "XXXX"
+	cohorte = "XX"
+	msg = None
+	msg2 = "Ejemplo"
 	if request.POST:
 		cohorte = request.POST.get('Cohorte')
 		trimestre = request.POST.get('Trimestre')
 		anio = request.POST.get('anio')
 		carrera = request.POST.get('carrera')
 
-		porcentaje = getcreditsbytrandct(trimestre, int(cohorte))
+		nestudiantes = Estudiante.objects.filter(cohorte=cohorte).count()
+		if nestudiantes > 0:
+			porcentaje = getcreditsbytrandct(trimestre, int(cohorte))
+			msg2 = "Resultado"
+		else:
+			msg = "No hay datos suficientes para esa cohorte."
+
 
 	for i in range(17):
 		dictdata = {'porcentaje': porcentaje[i],
@@ -87,5 +98,7 @@ def instantanea(request):
 	print(data2)
 	data2 = json.dumps(data2)
 
-	return render(request, "instantanea.html", {'data2':data2, 'rangecohorte':list1, 'rangeano':range(1968, 2023), 'carrera': carrera})
+	return render(request, "instantanea.html", {'data2':data2, 'rangecohorte':list1, 'rangeano':range(1968, 2023), 'carrera': carrera,
+												'trimestre' : trimestre, 'anio' : anio, 'cohorte' : cohorte, 'msg' : msg,
+												'msg2' : msg2})
 

@@ -6,6 +6,15 @@
 
 {% block content %}
 <div class="container-fluid">
+    {% if msg %}
+            <div class="alert alert-danger alert-dismissible" role="alert" style="margin-top: 60px">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong><span class="glyphicon glyphicon-remove"></span> ERROR: </strong>
+                    {{ msg }}
+            </div>
+    {% endif %}
     <form method="post" style="margin-top: 90px">
          {% csrf_token %}
         <div class="row">
@@ -56,7 +65,7 @@
 
     <div class="container-fluid">
         <h2 class="text-center">
-            <b>Gráfica Resultado</b>
+            <b>Gráfica {{ msg2 }} </b>
         </h2>
 
         <h5 class="text-center">
@@ -64,10 +73,12 @@
             <b>Trimestre:</b>  {{ trimestre }} {{ anio }}<br>
             <b>Cohorte:</b> {{ cohorte }}
         </h5>
-        <script src="http://d3js.org/d3.v4.min.js"></script>
-        <script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
+{#        <script src="http://d3js.org/d3.v4.min.js"></script>#}
+{#        <script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>#}
+          <script src='{% static 'js/d3.v4.min.js' %}'></script>
+          <script src='{% static 'js/dimple.v2.3.0.min.js' %}'></script>
 
-        <div id="chartContainer" style="height: 768px; width: 1336px; margin-left: -150px">
+       <div id="chartContainer" style="height: 768px; width: 1336px; margin-left: -150px">
             <script type="text/javascript">
                 var svg = dimple.newSvg("#chartContainer", 1366, 768);
                 var data2 = JSON.parse('{{ data2 | escapejs}}');
