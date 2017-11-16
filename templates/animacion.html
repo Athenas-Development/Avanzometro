@@ -212,6 +212,14 @@
                         story.startAnimation();
                     });
                   });
+
+                  $(document).ready(function() {
+                    $('#resetear').on('click',function(){
+                        story.stopAnimation();
+                        story.goToFrame(story.getFrameValue());
+                        story.startAnimation();
+                    });
+                  });
               </script>
         </div>
 
@@ -220,6 +228,7 @@
             <button class="btn btn-primary" id="disminuir">Disminuir</button>
             <button class="btn btn-primary" id="pausa">Pausar</button>
             <button class="btn btn-primary" id="play">Play</button>
+            <button class="btn btn-primary" id="resetear">Resetear</button>
         </div>
     </div>
 
