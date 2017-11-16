@@ -47,7 +47,7 @@ def separar_estudiantes(archivo, request, trimestre_limite="xxx-xxx xxxx"):
 def separar_estudiantes_V2(archivo, request, trimestre_limite="xxx-xxx xxxx"):
     with open(archivo) as f:
         # Lectura del archivo .csv y lo separa por ; y |
-        archivo1 = csv.reader(f, delimiter=',', quotechar='|')
+        archivo1 = csv.reader(f, delimiter=';', quotechar='|')
         listaEstudiantes = []
         expEstudiantes = []
         for linea in archivo1:
@@ -109,9 +109,11 @@ def separar_estudiantes_V2(archivo, request, trimestre_limite="xxx-xxx xxxx"):
                     else:
                         messages.error(request, 'Datos del documentos invalidos.')
                         return
-                print(trim)
-                listaEstudiantes.append(expEstudiantes)
-                print(listaEstudiantes)
+
+                if len(expEstudiantes) > 2:
+
+                    listaEstudiantes.append(expEstudiantes)
+
 
     return read_csv(listaEstudiantes, trimestre_limite, request)
 
@@ -246,7 +248,7 @@ def cargarArchivo(request):
         separar_estudiantes_V2(filetoload, request)
 
     msg = None
-    if list(messages.get_messages(request)) != 0:
+    if len(list(messages.get_messages(request))) != 0:
         msg = list(messages.get_messages(request))[-1]
 
     return render(request, 'cargaArchivo.html', {'form': form, 'msg': msg})
