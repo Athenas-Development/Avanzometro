@@ -9,8 +9,8 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
-            {% if msg.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %} <strong> PERFECTO: </strong> {% endif %}
-            {% if msg.level == DEFAULT_MESSAGE_LEVELS.ERROR %} <strong> ERROR: </strong> {% endif %}
+            {% if msg.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %} <strong><span class="glyphicon glyphicon-ok"></span> PERFECTO: </strong> {% endif %}
+            {% if msg.level == DEFAULT_MESSAGE_LEVELS.ERROR %} <strong><span class="glyphicon glyphicon-remove"></span> ERROR: </strong> {% endif %}
             {{ msg }}
           </div>
         {% endif %}

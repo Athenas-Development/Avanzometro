@@ -44,6 +44,10 @@
         <h2 class="text-center">
             <b>Animación Resultado</b>
         </h2>
+        <h5 class="text-center">
+            <br><br>
+            <b>Cohorte:</b> {{ cohorte }}
+        </h5>
         <div class = "col-sm-12" id ="chartContainer" style="height: 650px; width: 1336px; margin-left: -150px">
               <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
               <script src="http://d3js.org/d3.v4.min.js"></script>
@@ -223,13 +227,15 @@
               </script>
         </div>
 
-        <div>
-            <button class="btn btn-primary" id="aumentar" type="submit"> Aumentar </button>
-            <button class="btn btn-primary" id="disminuir">Disminuir</button>
-            <button class="btn btn-primary" id="pausa">Pausar</button>
-            <button class="btn btn-primary" id="play">Play</button>
-            <button class="btn btn-primary" id="resetear">Resetear</button>
+        <div class="col-sm-12 col-md-offset-3">
+            <button class="btn btn-primary" id="play"><span class="glyphicon glyphicon-play"></span> Play</button>
+            <button class="btn btn-primary" id="pausa"><span class="glyphicon glyphicon-pause"></span> Pausar</button>
+            <button class="btn btn-primary" id="aumentar" type="submit"><span class="glyphicon glyphicon-plus"></span> Aumentar </button>
+            <button class="btn btn-primary" id="disminuir"><span class="glyphicon glyphicon-minus"></span> Disminuir</button>
+            <button class="btn btn-primary" id="resetear"><span class="glyphicon glyphicon-repeat"></span> Resetear</button>
         </div>
+
+        <br><br>
     </div>
 
 </div>
