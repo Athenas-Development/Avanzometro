@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'apps.registro',
     'apps.carga',
 	'apps.instantanea',
-    'apps.animacion'
+    'apps.animacion',
+    'apps.multigraph'
 ]
 
 MIDDLEWARE = [
@@ -133,7 +134,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-LOGIN_REDIRECT_URL = 'instantanea/'
+LOGIN_REDIRECT_URL = 'animacion/'
 
 LOGIN_URL = '/'
 

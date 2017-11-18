@@ -49,7 +49,6 @@
             <div class="row">
                 <div class="col-md-8 col-md-offset-2 text-center" style="margin-top: 50px">
                     <div class="form-group">
-                        <!--<button class="btn btn-primary"  type="submit"><span class="glyphicon glyphicon-share-alt"></span> Cargar Datos </button>-->
                         <button class="btn btn-primary"  type="submit"><span class="glyphicon glyphicon-share-alt"></span> Cargar Datos </button>
                     </div>
                 </div>
@@ -70,9 +69,6 @@
                 <script src='{% static 'js/d3.v4.min.js' %}'></script>
                 <script src='{% static 'js/dimple.v2.3.0.min.js' %}'></script>
                 <script src='{% static 'js/jquery.min.js' %}'></script>
-{#                  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>#}
-{#                  <script src="http://d3js.org/d3.v4.min.js"></script>#}
-{#                  <script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>#}
                   <script type="text/javascript">
                       var svg = dimple.newSvg("#chartContainer", 1366, 650);
                       var data = JSON.parse('{{ data2 | escapejs}}');

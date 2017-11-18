@@ -8,15 +8,12 @@ from django.contrib import messages
 
 
 def comprobar_entero(dato):
-    print(dato)
     try:
         if int(dato) >= 0:
             return True
         else:
-            print('notas negativas encontradas')
             return False
     except ValueError:
-        print('strings desconocidos encontrados')
         return False
 
 
@@ -45,6 +42,7 @@ def separar_estudiantes(archivo, request, trimestre_limite="xxx-xxx xxxx"):
 
 
 def separar_estudiantes_V2(archivo, request, trimestre_limite="xxx-xxx xxxx"):
+
     with open(archivo) as f:
         # Lectura del archivo .csv y lo separa por ; y |
         archivo1 = csv.reader(f, delimiter=';', quotechar='|')
@@ -58,8 +56,8 @@ def separar_estudiantes_V2(archivo, request, trimestre_limite="xxx-xxx xxxx"):
             else:
                 expEstudiantes = []
                 lineaEst = []
-                cohorte = linea[1]
                 carnet = linea[0]
+                cohorte = linea[1]
                 nombre = linea[2]
 
                 trimestres = ['Sep-Dic ' + str(int(cohorte)), 'Ene-Mar ' + str(int(cohorte) + 1),

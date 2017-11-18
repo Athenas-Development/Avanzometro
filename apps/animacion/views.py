@@ -9,14 +9,8 @@ def obtenerMatriz(cohorte):
     matriz = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
     EstudianteDeCohorte = Estudiante.objects.filter(cohorte_id = cohorte)
 
-    #for x in EstudianteDeCohorte:
-     #   print(x.cohorte_id)
-      #  print(x.carnet)
     cuenta = EstudianteDeCohorte.count()
-    print("cuenta: " , cuenta)
-    numeroTrimestres = 0
     trimestresVistos = []
-    listaEstudiantes = []
 
     if int(cohorte) >= 68:
         apendboy = '19'
@@ -28,17 +22,12 @@ def obtenerMatriz(cohorte):
         'Abr-Jul '+ apendboy +str(int(cohorte_dada)+2), 'Sep-Dic ' + apendboy + str(int(cohorte_dada)+2), 'Ene-Mar '+ apendboy + str(int(cohorte_dada)+3), 'Abr-Jul '+ apendboy +str(int(cohorte_dada)+3), 'Sep-Dic ' + apendboy + str(int(cohorte_dada)+3),
         'Ene-Mar '+ apendboy + str(int(cohorte_dada)+4), 'Abr-Jul '+ apendboy +str(int(cohorte_dada)+4),'Sep-Dic ' + apendboy + str(int(cohorte_dada)+4), 'Ene-Mar '+ apendboy + str(int(cohorte_dada)+5), 'Abr-Jul '+ apendboy +str(int(cohorte_dada)+5)]
 
-    x = 0
     for estudianteAct in EstudianteDeCohorte:
-        x += 1
-        print('estudiante numero: ',x)
         # Filtramos los cursa de un estudiante
         CursasEsatudiante = Cursa.objects.filter(estudiante = estudianteAct)
         for cursaAct in CursasEsatudiante:
             # identificamos el trimestre de ese cursa
             trimestreVar = cursaAct.trimestre.id
-            print(trimestresVistos)
-            print(trimestreVar)
             if trimestreVar in trimestresVistos:
                 pass
             else:
@@ -47,23 +36,16 @@ def obtenerMatriz(cohorte):
                 matriz.append(temp)
 
     for estudianteAct in EstudianteDeCohorte:
-        x += 1
-        print('--------------------------------------------estudiante numero: ',x)
         # Filtramos los cursa de un estudiante
         CursasEsatudiante = Cursa.objects.filter(estudiante = estudianteAct)
         for cursaAct in CursasEsatudiante:
             # identificamos el trimestre de ese cursa
             trimestreVar = cursaAct.trimestre.id
-            print(trimestresVistos)
-            print(trimestreVar)
             if trimestreVar in trimestresVistos:
-                print('Trim id: ', trimestreVar)
                 posicion = trimestress.index(trimestreVar) + 1 # +1 por el trim 0
                 creditos = cursaAct.creditosAprobados
-                print('creditos aprobados: ', creditos)
                 if creditos <= 240:
                     if creditos != 0:
-                        print('valor guardado en la posicion: ',(int((creditos - 1)/ 16) + 1), 'valor: ', matriz[posicion][int((creditos - 1)/ 16) + 1])
                         matriz[posicion][int((creditos - 1)/ 16) + 1] += 1
                     else:
                         matriz[posicion][0] += 1
@@ -100,22 +82,7 @@ def animacion(request):
                 '193-208', '209-224', '225-240', '240+']
     trimestres = ['Sept-Dic Año 1', 'Ene-Mar Año 1', 'Abr-Jul Año 1', 'Sept-Dic Año 2', 'Ene-Mar Año 2', 'Abr-Jul Año 2', 'Sept-Dic Año 3', 'Ene-Mar Año 3', 'Abr-Jul Año 3', 'Sept-Dic Año 4',
                  'Ene-Mar Año 4', 'Abr-Jul Año 4', 'Sept-Dic Año 5', 'Ene-Mar Año 5', 'Abr-Jul Año 5']
-    # matriz = [[4, 96, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #           [3, 82, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #           [2, 60, 38, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #           [2, 45, 25, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #           [2, 25, 35, 10, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #           [2, 15, 25, 25, 10, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #           [2, 10, 15, 30, 10, 33, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #           [2, 10, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #           [2, 10, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #           [2, 10, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #           [2, 10, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #           [2, 10, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #           [2, 10, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #           [2, 10, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #           [2, 10, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #         ]
+
     matriz = []
     for _ in trimestres:
         matriz.append(porcentaje)
