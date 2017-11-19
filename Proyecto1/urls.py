@@ -32,5 +32,5 @@ urlpatterns = [
     url(r'^cargaArchivo/', cargarArchivo),
     url(r'^logout/$', logout_then_login),
     url(r'^animacion/$', animacion),
-    url(r'multigrafica$', multigrafica)
+    url(r'multigrafica/$', multigrafica)
 ]

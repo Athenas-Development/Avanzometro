@@ -128,8 +128,18 @@ def multigrafica(request):
 		list1.append(a)
 
 	# PARA PROBAR AQUI PONEN CUALES TRIMESTRES QUIEREN VER!!!
-	jsondata = obtenerMatriz(['87', '88'])
+	cohorte1 = '90'
+	cohorte2 = '92'
+	if request.POST:
+		cohorte1 = request.POST.get('Cohorte1')
+		cohorte2 = request.POST.get('Cohorte2')
+		carrera = request.POST.get('carrera')
+		mls = request.POST.get('mlsPorImagen')
+
+
+
+	jsondata = obtenerMatriz([cohorte1, cohorte2])
 
 	jsondata = json.dumps(jsondata)
 
-	return render(request, "multigraph.html",{'data2': jsondata, 'mls': 1000, })
+	return render(request, "multigraph.html",{'data2': jsondata, 'mls': 1000, 'rangecohorte' : list1, 'rangemls' : range(500, 3001, 500)})
