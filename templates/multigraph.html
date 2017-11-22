@@ -1,6 +1,10 @@
 {% extends 'layout.html' %}
 {% load staticfiles %}
 
+{% block css %}
+      <link href="{% static 'css/slider.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
     {% if msg %}
             <div class="alert alert-danger alert-dismissible" role="alert" style="margin-top: 60px">
@@ -10,9 +14,12 @@
                     <strong><span class="glyphicon glyphicon-remove"></span> ERROR: </strong>
                     {{ msg }}
             </div>
-        {% endif %}
+    {% endif %}
+
+    {% if ncohortes  %}
         <form method="post" style="margin-top: 90px">
-             {% csrf_token %}
+            {% csrf_token %}
+            <input type="text" id="ncohortes" name="ncohortes" value="{{ nc }}" hidden required>
             <div class="row">
                 <div class ="col-md-4 col-md-offset-2">
                     <label for="cedula">Carrera: </label>
@@ -29,31 +36,47 @@
                     </select>
                 </div>
             </div>
-
+            {% for i in ncohortes %}
             <div class="row" style="margin-top: 40px">
-                <div class ="col-md-4 col-md-offset-1" id="Cohorte1">
-                    <label for="Cohorte1" > Cohorte 1: </label>
-                        <select class="select-style" id="Cohorte1" name="Cohorte1" required>
+                <div class ="col-md-8 col-md-offset-2 text-center" id="Cohorte1">
+                    <label for="Cohorte{{ i }}" > Cohorte {{ i }}: </label>
+                        <select class="select-style" id="Cohorte{{ i }}" name="Cohorte{{ i }}" required>
                             <option value=" " disable >Seleccione uno</option>
-                            {% for i in rangecohorte %}
-                            <option value="{{i}}" >{{i}}</option>
+                            {% for j in rangecohorte %}
+                            <option value="{{j}}" >{{j}}</option>
                             {% endfor %}
                         </select>
                 </div>
             </div>
-            <div class="row" style="margin-top: 10px">
-                <div class ="col-md-4 col-md-offset-1" id="Cohorte2">
-                    <label for="Cohorte2" > Cohorte 2: </label>
-                        <select class="select-style" id="Cohorte2" name="Cohorte2" required>
-                            <option value=" " disable >Seleccione uno</option>
-                            {% for i in rangecohorte %}
-                            <option value="{{i}}" >{{i}}</option>
-                            {% endfor %}
-                        </select>
-                </div>
-            </div>
+            {% endfor %}
 
+
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2 text-center" style="margin-top: 50px">
+                    <div class="form-group">
+                        <button class="btn btn-primary"  type="submit"><span class="glyphicon glyphicon-share-alt"></span> Cargar Datos </button>
+                    </div>
+                </div>
+            </div>
         </form>
+    {% else %}
+        <form method="post" style="margin-top: 90px">
+            {% csrf_token %}
+            <div class="row">
+                <div class ="col-md-4 col-md-offset-4  text-center">
+                    <label for="ncohortes"> Número de Cohortes a comparar: </label>
+                    <input type="text" id="ncohortes" name="ncohortes" value="0" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2 text-center" style="margin-top: 50px">
+                    <div class="form-group">
+                        <button class="btn btn-primary"  type="submit"><span class="glyphicon glyphicon-share-alt"></span> Cargar Datos </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {% endif %}
 
 
     <input hidden value="" id="arreglo">
@@ -146,6 +169,7 @@
                 y.overrideMax = 100;
 
                 bubbles.addSeries("Cohorte", dimple.plot.bar)
+
                 bubbles.addLegend(60, 10, 410, 60);
 
                 // Add a storyboard to the main chart and set the tick event
@@ -191,6 +215,91 @@
                   }
                   firstTick = false;
                 }
+                $(document).ready(function() {
+                        $('#aumentar').on('click',function(){
+                            if (frame > 500) {
+                                story.pauseAnimation();
+                                frame = frame - 500;
+                                story.frameDuration = frame;
+                                bubbles.draw();
+                                story.storyLabel.remove();
+                            }
+                        });
+                      });
+
+                      $(document).ready(function() {
+                        $('#disminuir').on('click',function(){
+                            if (frame < 3000) {
+                                story.pauseAnimation();
+                                frame = frame + 500;
+                                story.frameDuration = frame;
+                                bubbles.draw();
+                                story.storyLabel.remove();
+                            }
+                        });
+                      });
+
+                      $(document).ready(function() {
+                        $('#pausa').on('click',function(){
+                            story.pauseAnimation();
+                        });
+                      });
+
+                      $(document).ready(function() {
+                        $('#play').on('click',function(){
+                            story.startAnimation();
+                        });
+                      });
+
+                      $(document).ready(function() {
+                        $('#resetear').on('click',function(){
+                            story.stopAnimation();
+                            story.goToFrame(story.getFrameValue());
+                            story.pauseAnimation();
+                        });
+                      });
+
+                      $(document).ready(function() {
+                        $('#siguiente').on('click',function(){
+                            story.pauseAnimation();
+                            for (i = 0; i < count; i = i+17){
+                                if(arreglo[i] == story.getFrameValue()){
+                                    if (i < 224) {
+                                        story.goToFrame(arreglo[i + 17]);
+                                    }
+                                    else{
+                                        story.goToFrame(arreglo[0]);
+                                    };
+                                    story.pauseAnimation();
+                                    break;
+                                };
+                              };
+                        });
+                      });
+
+                      $(document).ready(function() {
+                        $('#anterior').on('click',function(){
+                            story.pauseAnimation();
+                            for (i = 0; i < count; i = i+17){
+                                if(arreglo[i] == story.getFrameValue()){
+                                    if (i > 17) {
+                                        story.goToFrame(arreglo[i - 17]);
+                                    }
+                                    else{
+                                        story.goToFrame(arreglo[240]);
+                                    };
+                                    story.pauseAnimation();
+                                    break;
+                                };
+                              };
+                        });
+                      });
+
+                      function sliderCambio(){
+                        story.pauseAnimation();
+                        story.goToFrame(arreglo[(parseInt(document.getElementById("slider").value))*17 - 17]);
+                        story.pauseAnimation();
+                    }
             </script>
         </div>
         <input type="range" min="1" max="15" value="1" onmouseup="sliderCambio();" class="slider" id="slider"><br>
@@ -203,5 +312,25 @@
             <button class="btn btn-primary" id="disminuir"><span class="glyphicon glyphicon-minus"></span> Disminuir</button>
             <button class="btn btn-primary" id="resetear"><span class="glyphicon glyphicon-repeat"></span> Resetear</button>
         </div>
+
+        <script>
+            function sliderAdd(){
+                if (document.getElementById("slider").value < document.getElementById("slider").max){
+                    document.getElementById("slider").value = parseInt(document.getElementById("slider").value) + 1;
+                }
+                else{
+                    document.getElementById("slider").value = 1;
+                };
+            }
+
+            function rango(){
+                document.getElementById("slider").max = document.getElementById("arreglo").value;
+            }
+
+            rango();
+
+
+
+        </script>
     </div>
 {% endblock %}

@@ -26,11 +26,11 @@ from apps.multigraph.views import multigrafica
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'$^', login, {'template_name':'login.html'}),
+    url(r'^$', login, {'template_name':'login.html'}),
     url(r'^registro/', include('apps.registro.urls')),
     url(r'^instantanea/', instantanea),
     url(r'^cargaArchivo/', cargarArchivo),
     url(r'^logout/$', logout_then_login),
     url(r'^animacion/$', animacion),
-    url(r'multigrafica/$', multigrafica)
+    url(r'^multigrafica/$', multigrafica)
 ]
