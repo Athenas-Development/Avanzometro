@@ -3,6 +3,7 @@ from apps.registro.models import Estudiante, Cursa
 from django.core.cache import cache
 import json
 
+n = 0
 def obtenerMatriz(cohortes=None):
 	jsonDict = []
 	maxmatriz = 0
@@ -113,7 +114,7 @@ def obtenerMatriz(cohortes=None):
 							'Créditos': categoriaCreditos[i],
 							'Trimestre': t,
 							'Vacío': "",
-							'Cohorte': cohorte}
+							'Cohorte': "Cohorte " + str(cohorte)}
 
 				jsonDict.append(dictdata)
 
@@ -128,8 +129,25 @@ def multigrafica(request):
 		list1.append(a)
 
 	# PARA PROBAR AQUI PONEN CUALES TRIMESTRES QUIEREN VER!!!
-	jsondata = obtenerMatriz(['87', '88'])
+	ncohortes = 0
+	cohortes = []
+	if request.POST:
+		ncohortes = request.POST.get('ncohortes')
+
+		for i in range(1, int(ncohortes)+1):
+			cohorte1 = request.POST.get('Cohorte'+str(i))
+			cohortes.append(cohorte1)
+		carrera = request.POST.get('carrera')
+		mls = request.POST.get('mlsPorImagen')
+
+
+	if None in cohortes:
+		cohortes = []
+
+	jsondata = obtenerMatriz(cohortes)
 
 	jsondata = json.dumps(jsondata)
 
-	return render(request, "multigraph.html",{'data2': jsondata, 'mls': 1000, })
+	return render(request, "multigraph.html",{'data2': jsondata, 'mls': mls, 'rangecohorte' : list1, 'carrera' : carrera,
+											  'rangemls' : range(500, 3001, 500), 'ncohortes' : range(1, int(ncohortes)+1),
+											  'nc' : int(ncohortes)})

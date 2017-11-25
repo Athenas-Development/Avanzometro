@@ -3,6 +3,9 @@
 
 <!DOCTYPE html>
 
+{% block css %}
+      <link href="{% static 'css/slider.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block content %}
 
@@ -65,7 +68,6 @@
             </h5>
             <input hidden value="" id="arreglo">
             <div class = "col-sm-12" id ="chartContainer" style="height: 650px; width: 1336px; margin-left: -50px">
-                  <link href="{% static 'css/slider.css' %}" rel="stylesheet">
                 <script src='{% static 'js/d3.v4.min.js' %}'></script>
                 <script src='{% static 'js/dimple.v2.3.0.min.js' %}'></script>
                 <script src='{% static 'js/jquery.min.js' %}'></script>
@@ -239,7 +241,7 @@
                         $('#resetear').on('click',function(){
                             story.stopAnimation();
                             story.goToFrame(story.getFrameValue());
-                            story.startAnimation();
+                            story.pauseAnimation();
                         });
                       });
 
