@@ -2,11 +2,25 @@ from django.shortcuts import render
 from apps.registro.models import Estudiante, Cursa
 from django.core.cache import cache
 import json
+from apps.multigraph.granularizador import granularizador
 
 n = 0
-def obtenerMatriz(cohortes=None):
+def obtenerMatriz(cohortes = None, rango = 16):
 	jsonDict = []
 	maxmatriz = 0
+
+	# Creacion del arreglo de limites de Creditos.
+	# categoriaCreditos =  ['0']
+	# lim = 0
+	# bar = 1
+	# while rango*bar <= 240:
+	# 	categoriaCreditos.append(str(lim + 1) + '-' + str(rango * bar))
+	# 	bar += 1
+	# 	lim += rango
+	# categoriaCreditos.append(str(rango * (bar-1)) + '+')
+
+	categoriaCreditos = granularizador(rango)
+
 	if cohortes is None:
 		porcentaje = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 		creditos = ['0', '1-16', '17-32', '33-48', '49-64', '65-80', '81-96',
@@ -33,7 +47,10 @@ def obtenerMatriz(cohortes=None):
 		return jsonDict
 
 	for cohorte in cohortes:
-		matriz = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
+		temp = [0] * len(categoriaCreditos)
+		matriz = []
+		matriz.append(temp)
+
 		EstudianteDeCohorte = Estudiante.objects.filter(cohorte_id = cohorte)
 
 		cuenta = EstudianteDeCohorte.count()
@@ -62,9 +79,9 @@ def obtenerMatriz(cohortes=None):
 					   'Ene-Mar ' + anio + str(int(cohorte_dada) + 5),
 					   'Abr-Jul ' + anio + str(int(cohorte_dada) + 5)]
 
-		categoriaCreditos = ['0', '1-16', '17-32', '33-48', '49-64', '65-80', '81-96',
-					'97-112', '113-128', '129-144', '145-160', '161-176', '177-192',
-					'193-208', '209-224', '225-240', '240+']
+		# categoriaCreditos = ['0', '1-16', '17-32', '33-48', '49-64', '65-80', '81-96',
+		# 			'97-112', '113-128', '129-144', '145-160', '161-176', '177-192',
+		# 			'193-208', '209-224', '225-240', '240+']
 
 		for estudianteAct in EstudianteDeCohorte:
 			# Filtramos los cursa de un estudiante
@@ -76,7 +93,7 @@ def obtenerMatriz(cohortes=None):
 					pass
 				else:
 					trimestresVistos.append(trimestreVar)
-					temp = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+					temp = [0] * len(categoriaCreditos)
 					matriz.append(temp)
 
 		for estudianteAct in EstudianteDeCohorte:
@@ -90,7 +107,7 @@ def obtenerMatriz(cohortes=None):
 					creditos = cursaAct.creditosAprobados
 					if creditos <= 240:
 						if creditos != 0:
-							matriz[posicion][int((creditos - 1)/ 16) + 1] += 1
+							matriz[posicion][int((creditos - 1)/ rango) + 1] += 1
 						else:
 							matriz[posicion][0] += 1
 					else:
@@ -98,7 +115,7 @@ def obtenerMatriz(cohortes=None):
 
 				else:
 					trimestresVistos.append(trimestreVar)
-					temp = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+					temp = [0] * len(categoriaCreditos)
 					matriz.append(temp)
 
 		for i in range(len(matriz)):
@@ -109,7 +126,7 @@ def obtenerMatriz(cohortes=None):
 
 		for j in range(len(matriz)):
 			t = 'Año: ' + str(j//3 + 1) + ' Trimestre: ' + str(j%3 + 1)
-			for i in range(17):
+			for i in range(len(categoriaCreditos)):
 				dictdata = {'( % ) Porcentaje': matriz[j][i],
 							'Créditos': categoriaCreditos[i],
 							'Trimestre': t,
@@ -118,7 +135,7 @@ def obtenerMatriz(cohortes=None):
 
 				jsonDict.append(dictdata)
 
-	return jsonDict
+	return jsonDict, categoriaCreditos
 
 
 def multigrafica(request):
@@ -131,6 +148,11 @@ def multigrafica(request):
 	# PARA PROBAR AQUI PONEN CUALES TRIMESTRES QUIEREN VER!!!
 	ncohortes = 0
 	cohortes = []
+	mls = 3000
+	carrera = ''
+	rango = 16
+	tipo = 'barra'
+
 	if request.POST:
 		ncohortes = request.POST.get('ncohortes')
 
@@ -139,15 +161,25 @@ def multigrafica(request):
 			cohortes.append(cohorte1)
 		carrera = request.POST.get('carrera')
 		mls = request.POST.get('mlsPorImagen')
+		rango = request.POST.get('rango')
+		tipo = request.POST.get('tipo')
 
 
 	if None in cohortes:
 		cohortes = []
+		rango = 16
 
-	jsondata = obtenerMatriz(cohortes)
+	if tipo == 'linea':
+		tipo = True
+	else:
+		tipo = False
+
+	rango = int(rango)
+
+	jsondata, orden = obtenerMatriz(cohortes, rango)
 
 	jsondata = json.dumps(jsondata)
 
 	return render(request, "multigraph.html",{'data2': jsondata, 'mls': mls, 'rangecohorte' : list1, 'carrera' : carrera,
 											  'rangemls' : range(500, 3001, 500), 'ncohortes' : range(1, int(ncohortes)+1),
-											  'nc' : int(ncohortes)})
+											  'nc' : int(ncohortes), 'orden': orden, 'r': len(orden), 'tipo' : tipo})

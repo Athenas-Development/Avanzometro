@@ -21,13 +21,18 @@
             {% csrf_token %}
             <input type="text" id="ncohortes" name="ncohortes" value="{{ nc }}" hidden required>
             <div class="row">
-                <div class ="col-md-4 col-md-offset-2">
-                    <label for="cedula">Carrera: </label>
-                    <input type="text" id="carera" name="carrera" required>
+                <div class ="col-md-4">
+                    <label for="carrera">Carrera: </label>
+                    <input type="text" id="carrera" name="carrera" required>
                 </div>
 
                 <div class ="col-md-4">
-                    <label for="cedula">Milisegundos por imagen: </label>
+                    <label for="rango"> Granularidad deseada: </label>
+                    <input type="number" min="1" max="16" value="16" step="1" id="rango" name="rango" required>
+                </div>
+
+                <div class ="col-md-4">
+                    <label for="mlsPorImagen">Milisegundos por imagen: </label>
                     <select class="select-style" id="mlsPorImagen" name="mlsPorImagen" required>
                             <option value=" " disable >Seleccione uno</option>
                             {% for i in rangemls %}
@@ -36,6 +41,15 @@
                     </select>
                 </div>
             </div>
+
+
+
+            <div class="row text-center" style="margin-top: 40px">
+                <label for="tipo" > Tipo de Grafica: </label>
+                <input type="radio" id="barra" name="tipo" value="barra" checked required> Barra
+                <input type="radio" id="linea" name="tipo" value="linea" required> Linea
+            </div>
+
             {% for i in ncohortes %}
             <div class="row" style="margin-top: 40px">
                 <div class ="col-md-8 col-md-offset-2 text-center" id="Cohorte1">
@@ -50,8 +64,7 @@
             </div>
             {% endfor %}
 
-
-            <div class="row">
+            <div class="row" id="tipo">
                 <div class="col-md-8 col-md-offset-2 text-center" style="margin-top: 50px">
                     <div class="form-group">
                         <button class="btn btn-primary"  type="submit"><span class="glyphicon glyphicon-share-alt"></span> Cargar Datos </button>
@@ -65,7 +78,7 @@
             <div class="row">
                 <div class ="col-md-4 col-md-offset-4  text-center">
                     <label for="ncohortes"> Número de Cohortes a comparar: </label>
-                    <input type="text" id="ncohortes" name="ncohortes" value="0" required>
+                    <input type="number" min="0" max="5" value="0" step="1" id="ncohortes" name="ncohortes" required>
                 </div>
             </div>
             <div class="row">
@@ -98,7 +111,7 @@
                 }
 
                 data = dimple.filterData(data, "Trimestre", arreglo);
-                document.getElementById("arreglo").value = arreglo.length/17;
+                document.getElementById("arreglo").value = arreglo.length/{{ r }};
 
                 // BOTONES
                 // Create the indicator chart on the right of the main chart
@@ -160,15 +173,22 @@
 
 
                 var x = bubbles.addCategoryAxis("x", ["Créditos", "Cohorte"]);
-                x.addOrderRule(["0","1-16","17-32","33-48","49-64","65-80","81-96","97-112"
-                ,"113-128","129-144","145-160","161-176","177-192","193-208","209-224","225-240"
-                ,"240+"]);
-
-
+{#                x.addOrderRule(["0","1-16","17-32","33-48","49-64","65-80","81-96","97-112"#}
+{#                ,"113-128","129-144","145-160","161-176","177-192","193-208","209-224","225-240"#}
+{#                ,"240+"]);#}
+                x.addOrderRule({{ orden|safe }});
                 var y = bubbles.addMeasureAxis("y", "( % ) Porcentaje");
                 y.overrideMax = 100;
 
-                bubbles.addSeries("Cohorte", dimple.plot.bar)
+                {%  if tipo %}
+                    var p = bubbles.addSeries("Cohorte", dimple.plot.bubbles);
+
+                    var q = bubbles.addSeries("Cohorte", dimple.plot.line);
+
+                     q.interpolation = "monotone"
+                {% else %}
+                    var p = bubbles.addSeries("Cohorte", dimple.plot.bar);
+                {% endif %}
 
                 bubbles.addLegend(60, 10, 410, 60);
 
@@ -215,6 +235,7 @@
                   }
                   firstTick = false;
                 }
+
                 $(document).ready(function() {
                         $('#aumentar').on('click',function(){
                             if (frame > 500) {

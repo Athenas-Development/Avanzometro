@@ -6,7 +6,7 @@ def granularizador(g):
 		g = int(240/(240//g))
 
 	if g <= 0:
-		return False
+		return None
 
 	categorias = (240//g)
 	creditos = []
