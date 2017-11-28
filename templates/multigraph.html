@@ -17,6 +17,7 @@
     {% endif %}
 
     {% if ncohortes  %}
+        <input value="0" id="forma" hidden>
         <form method="post" style="margin-top: 90px">
             {% csrf_token %}
             <input type="text" id="ncohortes" name="ncohortes" value="{{ nc }}" hidden required>
@@ -28,21 +29,19 @@
 
                 <div class ="col-md-4">
                     <label for="rango"> Granularidad deseada: </label>
-                    <input type="number" min="1" max="16" value="16" step="1" id="rango" name="rango" required>
+                    <input type="number" min="2" max="16" value="16" step="1" id="rango" name="rango" required>
                 </div>
 
                 <div class ="col-md-4">
                     <label for="mlsPorImagen">Milisegundos por imagen: </label>
                     <select class="select-style" id="mlsPorImagen" name="mlsPorImagen" required>
-                            <option value=" " disable >Seleccione uno</option>
+                            <option value="" disabled selected hidden>Seleccione uno</option>
                             {% for i in rangemls %}
                                 <option value="{{ i }}" >{{ i }}</option>
                             {% endfor %}
                     </select>
                 </div>
             </div>
-
-
 
             <div class="row text-center" style="margin-top: 40px">
                 <label for="tipo" > Tipo de Grafica: </label>
@@ -55,7 +54,7 @@
                 <div class ="col-md-8 col-md-offset-2 text-center" id="Cohorte1">
                     <label for="Cohorte{{ i }}" > Cohorte {{ i }}: </label>
                         <select class="select-style" id="Cohorte{{ i }}" name="Cohorte{{ i }}" required>
-                            <option value=" " disable >Seleccione uno</option>
+                            <option value="" disabled selected hidden>Seleccione Uno</option>
                             {% for j in rangecohorte %}
                             <option value="{{j}}" >{{j}}</option>
                             {% endfor %}
@@ -75,16 +74,19 @@
     {% else %}
         <form method="post" style="margin-top: 90px">
             {% csrf_token %}
+            <input value="1" id="forma" hidden>
             <div class="row">
                 <div class ="col-md-4 col-md-offset-4  text-center">
                     <label for="ncohortes"> Número de Cohortes a comparar: </label>
-                    <input type="number" min="0" max="5" value="0" step="1" id="ncohortes" name="ncohortes" required>
+                    <input type="number" min="1" max="5" value="1" step="1" id="ncohortes" name="ncohortes" required>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-8 col-md-offset-2 text-center" style="margin-top: 50px">
                     <div class="form-group">
-                        <button class="btn btn-primary"  type="submit"><span class="glyphicon glyphicon-share-alt"></span> Cargar Datos </button>
+                        <button class="btn btn-primary" id="sendcohortes" type="submit">
+                            <span class="glyphicon glyphicon-share-alt"></span> Cargar Datos
+                        </button>
                     </div>
                 </div>
             </div>
@@ -93,6 +95,7 @@
 
 
     <input hidden value="" id="arreglo">
+    <input hidden value="0" id="grafica_mostrada">
     <div class = 'container-fluid'>
         <div class = "col-sm-12" id ="chartContainer" style="height: 650px; width: 1336px; margin-left: -50px">
             <script src='{% static 'js/d3.v4.min.js' %}'></script>
@@ -208,6 +211,8 @@
                 // Remove the storyboard label because the chart will indicate the
                 // current month instead of the label
                 story.storyLabel.remove();
+
+                document.getElementById('grafica_mostrada').value = '1';
 
                 // On click of the side chart
                 function onClick(e) {

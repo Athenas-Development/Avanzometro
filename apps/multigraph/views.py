@@ -7,8 +7,6 @@ from apps.multigraph.granularizador import granularizador
 n = 0
 def obtenerMatriz(cohortes = None, rango = 16):
 	jsonDict = []
-	maxmatriz = 0
-
 	# Creacion del arreglo de limites de Creditos.
 	# categoriaCreditos =  ['0']
 	# lim = 0
