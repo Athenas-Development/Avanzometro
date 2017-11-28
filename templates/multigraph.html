@@ -21,12 +21,17 @@
             {% csrf_token %}
             <input type="text" id="ncohortes" name="ncohortes" value="{{ nc }}" hidden required>
             <div class="row">
-                <div class ="col-md-4">
+                <div class ="col-md-5">
                     <label for="carrera">Carrera: </label>
-                    <input type="text" id="carrera" name="carrera" required>
+                     <select class="select-style" id="carrera" name="carrera" required>
+                            <option value=" " disable >Seleccione una</option>
+                            {% for i in carreras %}
+                                <option value="{{ i }}" >{{ i }}</option>
+                            {% endfor %}
+                    </select>
                 </div>
 
-                <div class ="col-md-4">
+                <div class ="col-md-3">
                     <label for="rango"> Granularidad deseada: </label>
                     <input type="number" min="1" max="16" value="16" step="1" id="rango" name="rango" required>
                 </div>
@@ -93,9 +98,18 @@
 
 
     <input hidden value="" id="arreglo">
-    <div class = 'container-fluid'>
+    <div class = 'col-sm-12'>
+        <h2 class="text-center">
+                <b>Animación {{ msg2 }}</b>
+        </h2>
+        <h5 class="text-center">
+            <br><br>
+            <b>Carrera:</b> {{ carrera }}
+        </h5>
+
         <div class = "col-sm-12" id ="chartContainer" style="height: 650px; width: 1336px; margin-left: -50px">
-            <script src='{% static 'js/d3.v4.min.js' %}'></script>
+{#            <script src='{% static 'js/d3.v4.min.js' %}'></script>#}
+            <script src="https://d3js.org/d3.v4.js"></script>
             <script src='{% static 'js/dimple.v2.3.0.min.js' %}'></script>
             <script src='{% static 'js/jquery.min.js' %}'></script>
             <script type="text/javascript">

@@ -44,7 +44,7 @@ def obtenerMatriz(cohortes = None, rango = 16):
 							'Cohorte': 'XX'}
 
 				jsonDict.append(dictdata)
-		return jsonDict
+		return jsonDict, categoriaCreditos
 
 	for cohorte in cohortes:
 		temp = [0] * len(categoriaCreditos)
@@ -149,16 +149,29 @@ def multigrafica(request):
 	ncohortes = 0
 	cohortes = []
 	mls = 3000
-	carrera = ''
+	carrera = 'XXXXXXX'
 	rango = 16
 	tipo = 'barra'
+	msg2 = 'Ejemplo'
+	msg = None
 
 	if request.POST:
 		ncohortes = request.POST.get('ncohortes')
 
 		for i in range(1, int(ncohortes)+1):
 			cohorte1 = request.POST.get('Cohorte'+str(i))
-			cohortes.append(cohorte1)
+			nestudiantes = Estudiante.objects.filter(cohorte=cohorte1).count()
+			if cohorte1 != None:
+				if nestudiantes > 0:
+					cohortes.append(cohorte1)
+					msg2 = 'Resultado'
+				else:
+					msg = "No hay datos suficientes para la cohorte " + cohorte1 + '.'
+					msg2 = 'Ejemplo'
+					break
+			else:
+				cohortes.append(cohorte1)
+
 		carrera = request.POST.get('carrera')
 		mls = request.POST.get('mlsPorImagen')
 		rango = request.POST.get('rango')
@@ -166,13 +179,12 @@ def multigrafica(request):
 
 
 	if None in cohortes:
-		cohortes = []
+		cohortes = None
 		rango = 16
+		carrera = 'XXXXXXX'
+		mls = 3000
 
-	if tipo == 'linea':
-		tipo = True
-	else:
-		tipo = False
+	tipo = tipo == 'linea'
 
 	rango = int(rango)
 
@@ -180,6 +192,21 @@ def multigrafica(request):
 
 	jsondata = json.dumps(jsondata)
 
+	carreras = ["Ingeniería Eléctrica", "Ingeniería Mecánica",
+				"Ingeniería Química", "Ingeniería Electrónica",
+				"Ingeniería de Materiales", "Ingeniería de la Computación",
+				"Ingeniería Geofísica", "Ingeniería de Producción",
+				"Ingeniería de Mantenimiento", "Ingeniería de Telecomunicaciones",
+				"Arquitectura", "Urbanismo", "Licenciatura en Química",
+				"Licenciatura en Matemáticas", "Licenciatura en Física",
+				"Licenciatura en Biología", "Licenciatura en Comercio Internacional",
+				"Licenciatura en Gestión de la Hospitalidad", "Tecnología Eléctrica",
+				"Tecnología Electrónica", "Tecnología Mecánica",
+				"Mantenimiento Aeronáutico", "Administración del Turismo",
+				"Administración Hotelera", "Administración del Transporte",
+				"Organización Empresarial", "Comercio Exterior", "Administración Aduanera"]
+
 	return render(request, "multigraph.html",{'data2': jsondata, 'mls': mls, 'rangecohorte' : list1, 'carrera' : carrera,
 											  'rangemls' : range(500, 3001, 500), 'ncohortes' : range(1, int(ncohortes)+1),
-											  'nc' : int(ncohortes), 'orden': orden, 'r': len(orden), 'tipo' : tipo})
+											  'nc' : int(ncohortes), 'orden': orden, 'r': len(orden), 'tipo' : tipo,
+											  'carreras' : carreras, 'msg' : msg, 'msg2' : msg2})
