@@ -74,4 +74,4 @@ class MultigraphTest(LiveServerTestCase):
 
 		self.assertEqual(step, "1")  # No paso al siguiente paso del formulario
 
-	# Prueba de Malicia: 
+	# Prueba de Malicia:
