@@ -109,7 +109,7 @@ def obtenerMatriz(cohortes = None, rango = 16):
 						else:
 							matriz[posicion][0] += 1
 					else:
-						matriz[posicion][16] += 1
+						matriz[posicion][-1] += 1
 
 				else:
 					trimestresVistos.append(trimestreVar)
@@ -152,23 +152,29 @@ def multigrafica(request):
 	tipo = 'barra'
 	msg2 = 'Ejemplo'
 	msg = None
+	msg3 = None
 
 	if request.POST:
 		ncohortes = request.POST.get('ncohortes')
+		cohortes_elegidas = []
 
 		for i in range(1, int(ncohortes)+1):
 			cohorte1 = request.POST.get('Cohorte'+str(i))
-			nestudiantes = Estudiante.objects.filter(cohorte=cohorte1).count()
-			if cohorte1 != None:
-				if nestudiantes > 0:
-					cohortes.append(cohorte1)
-					msg2 = 'Resultado'
-				else:
-					msg = "No hay datos suficientes para la cohorte " + cohorte1 + '.'
-					msg2 = 'Ejemplo'
-					break
+			if cohorte1 in cohortes_elegidas and not(cohorte1 is None):
+				msg3 = "Se eligio la misma cohorte varias veces, se mostrará este una única vez."
 			else:
-				cohortes.append(cohorte1)
+				cohortes_elegidas.append(cohorte1)
+				nestudiantes = Estudiante.objects.filter(cohorte=cohorte1).count()
+				if cohorte1 != None:
+					if nestudiantes > 0:
+						cohortes.append(cohorte1)
+						msg2 = 'Resultado'
+					else:
+						msg = "No hay datos suficientes para la cohorte " + cohorte1 + '.'
+						msg2 = 'Ejemplo'
+						break
+				else:
+					cohortes.append(cohorte1)
 
 		carrera = request.POST.get('carrera')
 		mls = request.POST.get('mlsPorImagen')
@@ -204,7 +210,10 @@ def multigrafica(request):
 				"Administración Hotelera", "Administración del Transporte",
 				"Organización Empresarial", "Comercio Exterior", "Administración Aduanera"]
 
+	DIVISORES = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 21, 26, 34, 40, 48, 60, 80, 120, 240]
+
 	return render(request, "multigraph.html",{'data2': jsondata, 'mls': mls, 'rangecohorte' : list1, 'carrera' : carrera,
 											  'rangemls' : range(500, 3001, 500), 'ncohortes' : range(1, int(ncohortes)+1),
 											  'nc' : int(ncohortes), 'orden': orden, 'r': len(orden), 'tipo' : tipo,
-											  'carreras' : carreras, 'msg' : msg, 'msg2' : msg2})
+											  'carreras' : carreras, 'msg' : msg, 'msg2' : msg2, 'msg3': msg3,
+											  'div' : DIVISORES})

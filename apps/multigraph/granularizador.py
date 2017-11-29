@@ -32,3 +32,7 @@ def granularizador(g):
 	creditos = ['0'] + creditos + ['240+']
 
 	return creditos
+
+
+
+

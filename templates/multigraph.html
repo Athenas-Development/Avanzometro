@@ -6,13 +6,27 @@
 {% endblock %}
 
 {% block content %}
+    <input value="0" id="error_mostrado" hidden>
     {% if msg %}
             <div class="alert alert-danger alert-dismissible" role="alert" style="margin-top: 60px">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <script>
+                    document.getElementById("error_mostrado").value = '1';
+                </script>
+                <strong><span class="glyphicon glyphicon-remove"></span> ERROR: </strong>
+                {{ msg }}
+            </div>
+    {% endif %}
+
+    {% if msg3 %}
+            <div class="alert alert-warning alert-dismissible" role="alert" style="margin-top: 60px">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
-                    <strong><span class="glyphicon glyphicon-remove"></span> ERROR: </strong>
-                    {{ msg }}
+                    <strong><span class="glyphicon glyphicon-remove"></span> AVISO: </strong>
+                    {{ msg3 }}
             </div>
     {% endif %}
 
@@ -25,16 +39,21 @@
                 <div class ="col-md-5">
                     <label for="carrera">Carrera: </label>
                      <select class="select-style" id="carrera" name="carrera" required>
-                            <option value=" " disable >Seleccione una</option>
+                            <option value="" disabled selected hidden>Seleccione una</option>
                             {% for i in carreras %}
                                 <option value="{{ i }}" >{{ i }}</option>
                             {% endfor %}
-                    </select>
+                     </select>
                 </div>
 
                 <div class ="col-md-3">
-                    <label for="rango"> Granularidad deseada: </label>
-                    <input type="number" min="2" max="16" value="16" step="1" id="rango" name="rango" required>
+                    <label for="rango"> Granularidad: </label>
+                    <select class="select-style" id="rango" name="rango" required>
+                            <option value="" disabled hidden selected>Seleccione Uno:</option>
+                            {% for i in div %}
+                                <option value="{{ i }}" >{{ i }}</option>
+                            {% endfor %}
+                    </select>
                 </div>
 
                 <div class ="col-md-4">
@@ -56,14 +75,14 @@
 
             {% for i in ncohortes %}
             <div class="row" style="margin-top: 40px">
-                <div class ="col-md-8 col-md-offset-2 text-center" id="Cohorte1">
+                <div class ="col-md-8 col-md-offset-2 text-center" id="Cohortessss">
                     <label for="Cohorte{{ i }}" > Cohorte {{ i }}: </label>
-                        <select class="select-style" id="Cohorte{{ i }}" name="Cohorte{{ i }}" required>
-                            <option value="" disabled selected hidden>Seleccione Uno</option>
-                            {% for j in rangecohorte %}
-                            <option value="{{j}}" >{{j}}</option>
-                            {% endfor %}
-                        </select>
+                    <select class="select-style" id="Cohorte{{ i }}" name="Cohorte{{ i }}" required>
+                        <option value="" disabled selected hidden>Seleccione Uno</option>
+                        {% for j in rangecohorte %}
+                        <option value="{{j}}" >{{j}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
             </div>
             {% endfor %}
@@ -71,7 +90,7 @@
             <div class="row" id="tipo">
                 <div class="col-md-8 col-md-offset-2 text-center" style="margin-top: 50px">
                     <div class="form-group">
-                        <button class="btn btn-primary"  type="submit"><span class="glyphicon glyphicon-share-alt"></span> Cargar Datos </button>
+                        <button class="btn btn-primary" id="send_data"  type="submit"><span class="glyphicon glyphicon-share-alt"></span> Cargar Datos </button>
                     </div>
                 </div>
             </div>
@@ -99,8 +118,9 @@
     {% endif %}
 
 
-    <input hidden value="" id="arreglo">
     <input hidden value="0" id="grafica_mostrada">
+    <input hidden value="" id="arreglo">
+
     <div class = 'col-sm-12'>
         <h2 class="text-center">
                 <b>Animación {{ msg2 }}</b>
@@ -141,6 +161,10 @@
                 var frame = {{ mls }};
 
                 var firstTick = true;
+
+                {% if carrera != 'XXXXXXX'%}
+                    document.getElementById("grafica_mostrada").value = '1';
+                {% endif %}
 
                 // Place the indicator bar chart to the right
                 indicator.setBounds(900, 50, 200, 500);
@@ -186,7 +210,7 @@
 
                 // Draw the main chart
                 var bubbles = new dimple.chart(svg, data);
-                bubbles.setBounds(100, 50, 700, 500)
+                bubbles.setBounds(100, 50, 700, 500);
 
 
                 var x = bubbles.addCategoryAxis("x", ["Créditos", "Cohorte"]);
@@ -202,7 +226,7 @@
 
                     var q = bubbles.addSeries("Cohorte", dimple.plot.line);
 
-                     q.interpolation = "monotone"
+                     q.interpolation = "monotone";
                 {% else %}
                     var p = bubbles.addSeries("Cohorte", dimple.plot.bar);
                 {% endif %}
@@ -225,8 +249,6 @@
                 // Remove the storyboard label because the chart will indicate the
                 // current month instead of the label
                 story.storyLabel.remove();
-
-                document.getElementById('grafica_mostrada').value = '1';
 
                 // On click of the side chart
                 function onClick(e) {
