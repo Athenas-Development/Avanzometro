@@ -19,7 +19,7 @@ def obtenerMatriz(cohortes = None, rango = 16):
 
 	categoriaCreditos = granularizador(rango)
 
-	if cohortes is None:
+	if cohortes is None or cohortes == []:
 		porcentaje = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 		creditos = ['0', '1-16', '17-32', '33-48', '49-64', '65-80', '81-96',
 					'97-112', '113-128', '129-144', '145-160', '161-176', '177-192',

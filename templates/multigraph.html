@@ -49,7 +49,7 @@
                 <div class ="col-md-3">
                     <label for="rango"> Granularidad: </label>
                     <select class="select-style" id="rango" name="rango" required>
-                            <option value="" disabled hidden selected>Seleccione Uno:</option>
+                            <option value="" disabled hidden selected>Seleccione uno</option>
                             {% for i in div %}
                                 <option value="{{ i }}" >{{ i }}</option>
                             {% endfor %}
@@ -78,7 +78,7 @@
                 <div class ="col-md-8 col-md-offset-2 text-center" id="Cohortessss">
                     <label for="Cohorte{{ i }}" > Cohorte {{ i }}: </label>
                     <select class="select-style" id="Cohorte{{ i }}" name="Cohorte{{ i }}" required>
-                        <option value="" disabled selected hidden>Seleccione Uno</option>
+                        <option value="" disabled selected hidden>Seleccione uno</option>
                         {% for j in rangecohorte %}
                         <option value="{{j}}" >{{j}}</option>
                         {% endfor %}

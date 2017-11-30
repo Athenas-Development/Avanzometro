@@ -134,7 +134,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-LOGIN_REDIRECT_URL = 'animacion/'
+LOGIN_REDIRECT_URL = 'multigrafica/'
 
 LOGIN_URL = '/'
 
