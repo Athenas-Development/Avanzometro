@@ -20,15 +20,17 @@ from apps.carga.views import cargarArchivo
 from apps.login.views import logout_then_login
 from apps.instantanea.views import instantanea
 from apps.animacion.views import animacion
+from apps.multigraph.views import multigrafica
 
 #Urls a los que redirecciona todas las paginass dentro de el software
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'$^', login, {'template_name':'login.html'}),
+    url(r'^$', login, {'template_name':'login.html'}),
     url(r'^registro/', include('apps.registro.urls')),
     url(r'^instantanea/', instantanea),
     url(r'^cargaArchivo/', cargarArchivo),
     url(r'^logout/$', logout_then_login),
     url(r'^animacion/$', animacion),
+    url(r'^multigrafica/$', multigrafica)
 ]

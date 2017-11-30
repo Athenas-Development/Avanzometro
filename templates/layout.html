@@ -19,7 +19,7 @@
       <div class="container">
         <div class="navbar-header">
             {% if user.is_authenticated %}
-              <a class="navbar-brand" href="../instantanea"><span class="glyphicon glyphicon-home"></span>  <b>Avanzómetro</b></a>
+              <a class="navbar-brand" href="../multigrafica"><span class="glyphicon glyphicon-home"></span>  <b>Avanzómetro</b></a>
             {% else %}
               <a class="navbar-brand" href="../"><span class="glyphicon glyphicon-home"></span>  <b>Avanzómetro</b></a>
             {% endif %}
@@ -41,13 +41,17 @@
              <li><a href="../cargaArchivo"><span class="glyphicon glyphicon-open-file"></span> Cargar Archivo de Estudiantes </a></li>
           </ul>
 
-          <ul class="nav navbar-nav ">
-            <li><a href="../instantanea"><span class="glyphicon glyphicon-stats"></span> Crear Instantanea </a></li>
-          </ul>
+{#          <ul class="nav navbar-nav ">#}
+{#            <li><a href="../instantanea"><span class="glyphicon glyphicon-stats"></span> Crear Instantanea </a></li>#}
+{#          </ul>#}
 
           <ul class="nav navbar-nav ">
-            <li><a href="../animacion"><span class="glyphicon glyphicon-film"></span> Crear Animación </a></li>
+            <li><a href="../multigrafica"><span class="glyphicon glyphicon-film"></span> Crear Animación </a></li>
           </ul>
+
+{#          <ul class="nav navbar-nav ">#}
+{#            <li><a href="../multigrafica"><span class="glyphicon glyphicon-stats"></span> <span class="glyphicon glyphicon-stats"></span> Comparar Cohortes </a></li>#}
+{#          </ul>#}
 
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
@@ -70,7 +74,7 @@
     {% block footer %}
     <footer class="container-fluid footer">
         <div class="row">
-            <p class="text-center minText"> Universidad Simon Bolivar<br>Sartenejas, Baruta, Edo. Miranda - Apartado 89000 - Cable Unibolivar - Caracas Venezuela. Teléfono +58 0212-9063111.<br>
+            <p class="text-center minText"> Universidad Simón Bolívar<br>Sartenejas, Baruta, Edo. Miranda - Apartado 89000 - Cable Unibolivar - Caracas Venezuela. Teléfono +58 0212-9063111.<br>
 Diseñada y desarrollada por Athenas-Development</p>
         </div>
     </footer>
