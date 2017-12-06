@@ -59,23 +59,33 @@ def obtenerMatriz(cohortes = None, rango = 16):
 		else:
 			anio = '20'
 
-		cohorte_dada = cohorte
+		cohorte_dada = int(cohorte)
 
-		trimestre = ['Sep-Dic ' + anio + str(int(cohorte_dada)),
-					   'Ene-Mar ' + anio + str(int(cohorte_dada) + 1),
-					   'Abr-Jul ' + anio + str(int(cohorte_dada) + 1),
-					   'Sep-Dic ' + anio + str(int(cohorte_dada) + 1),
-					   'Ene-Mar ' + anio + str(int(cohorte_dada) + 2),
-					   'Abr-Jul ' + anio + str(int(cohorte_dada) + 2),
-					   'Sep-Dic ' + anio + str(int(cohorte_dada) + 2),
-					   'Ene-Mar ' + anio + str(int(cohorte_dada) + 3),
-					   'Abr-Jul ' + anio + str(int(cohorte_dada) + 3),
-					   'Sep-Dic ' + anio + str(int(cohorte_dada) + 3),
-					   'Ene-Mar ' + anio + str(int(cohorte_dada) + 4),
-					   'Abr-Jul ' + anio + str(int(cohorte_dada) + 4),
-					   'Sep-Dic ' + anio + str(int(cohorte_dada) + 4),
-					   'Ene-Mar ' + anio + str(int(cohorte_dada) + 5),
-					   'Abr-Jul ' + anio + str(int(cohorte_dada) + 5)]
+		extra = ["", "", "", "", "", ""]
+
+		for i in range(0, 6):
+			if cohorte_dada + i < 10:
+				extra[i] = "0"
+
+
+
+		trimestre = ['Sep-Dic ' + anio + extra[0] + str(int(cohorte_dada)),
+					   'Ene-Mar ' + anio + extra[1] + str(int(cohorte_dada) + 1),
+					   'Abr-Jul ' + anio + extra[1] + str(int(cohorte_dada) + 1),
+					   'Sep-Dic ' + anio + extra[1] + str(int(cohorte_dada) + 1),
+					   'Ene-Mar ' + anio + extra[2] + str(int(cohorte_dada) + 2),
+					   'Abr-Jul ' + anio + extra[2] + str(int(cohorte_dada) + 2),
+					   'Sep-Dic ' + anio + extra[2] + str(int(cohorte_dada) + 2),
+					   'Ene-Mar ' + anio + extra[3] + str(int(cohorte_dada) + 3),
+					   'Abr-Jul ' + anio + extra[3] + str(int(cohorte_dada) + 3),
+					   'Sep-Dic ' + anio + extra[3] + str(int(cohorte_dada) + 3),
+					   'Ene-Mar ' + anio + extra[4] + str(int(cohorte_dada) + 4),
+					   'Abr-Jul ' + anio + extra[4] + str(int(cohorte_dada) + 4),
+					   'Sep-Dic ' + anio + extra[4] + str(int(cohorte_dada) + 4),
+					   'Ene-Mar ' + anio + extra[5] + str(int(cohorte_dada) + 5),
+					   'Abr-Jul ' + anio + extra[5] + str(int(cohorte_dada) + 5)]
+
+
 
 		# categoriaCreditos = ['0', '1-16', '17-32', '33-48', '49-64', '65-80', '81-96',
 		# 			'97-112', '113-128', '129-144', '145-160', '161-176', '177-192',
